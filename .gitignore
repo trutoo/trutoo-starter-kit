@@ -1,0 +1,47 @@
+# --------------------
+# Logs
+# --------------------
+*.log*
+
+# --------------------
+# OS Files
+# --------------------
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --------------------
+# Sublime Text Files
+# --------------------
+*.sublime-workspace
+
+# --------------------
+# Node Files
+# --------------------
+.nodemonignore
+npm-debug.log*
+node_modules/
+
+# --------------------
+# SASS Files
+# --------------------
+.sass-cache/
+
+# --------------------
+# Bower Files
+# --------------------
+.bower-*/
+bower_components
+
+# --------------------
+# App Files
+# --------------------
+.tmp/
+.dist/

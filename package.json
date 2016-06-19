@@ -1,0 +1,50 @@
+{
+  "name": "trutoo-starter-kit",
+  "version": "1.0.0",
+  "description": "Simple starter kit for Trutoo AB applications and services",
+  "main": "build/server.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "-"
+  },
+  "keywords": [
+    "ReactJS",
+    "ExpressJS",
+    "NodeJS",
+    "Starter",
+    "Kit",
+    "Trutoo"
+  ],
+  "author": "Erik Hughes",
+  "license": "MIT",
+  "devDependencies": {
+    "postcss": "^5.0.21",
+    "webpack": "^1.13.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "emailjs": "^1.0.5",
+    "express": "^4.13.4",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-helmet": "^3.1.0",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.1",
+    "redux": "^3.5.2"
+  },
+  "scripts": {
+    "clean": "bash tools/clean.sh",
+    "copy": "bash tools/copy.sh",
+    "build": "bash tools/build.sh",
+    "build:client": "bash tools/build.sh client",
+    "build:server": "bash tools/build.sh server",
+    "build:styles": "bash tools/build.sh styles",
+    "watch": "bash tools/watch.sh",
+    "watch:client": "bash tools/watch.sh client",
+    "watch:server": "bash tools/watch.sh server",
+    "watch:styles": "bash tools/watch.sh styles",
+    "test": "bash tools/test.sh",
+    "start": "bash tools/start.sh"
+  }
+}
