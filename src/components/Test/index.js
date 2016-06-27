@@ -1,11 +1,14 @@
 import React from 'react';
 
 /* Styles */
-import './Test.css'
+import style from './style.css';
 
 /* Utilities */
 
 /* Components */
+
+/* Assets */
+import image from 'img/test.png';
 
 export default class Test extends React.Component {
 	static propTypes = {
@@ -18,7 +21,7 @@ export default class Test extends React.Component {
 
 	render() {
 		return (
-			<div></div>
+			<div><img src={image} /></div>
 		);
 	}
 }

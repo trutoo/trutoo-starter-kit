@@ -1,11 +1,11 @@
-import path from 'path';
-import webpack from 'webpack';
-import extend from 'extend';
-import AssetsPlugin from 'assets-webpack-plugin';
+var path = require('path');
+var webpack = require('webpack');
+var extend = require('extend');
+var AssetsPlugin = require('assets-webpack-plugin');
 
-const DEBUG = !process.argv.includes('--release');
-const VERBOSE = process.argv.includes('--verbose');
-const AUTOPREFIXER_BROWSERS = [
+var DEBUG = process.argv.indexOf('--release') == -1;
+var VERBOSE = process.argv.indexOf('--verbose') != -1;
+var AUTOPREFIXER_BROWSERS = [
   'Android 2.3',
   'Android >= 4',
   'Chrome >= 35',
@@ -15,23 +15,21 @@ const AUTOPREFIXER_BROWSERS = [
   'Opera >= 12',
   'Safari >= 7.1',
 ];
-const GLOBALS = {
+var GLOBALS = {
   'process.env.NODE_ENV': DEBUG ? '"development"' : '"production"',
   __DEV__: DEBUG,
 };
 
 //
-// Common configuration chunk to be used for both
+// Common configuration to be used for both
 // client-side (client.js) and server-side (server.js) bundles
 // -----------------------------------------------------------------------------
-
-const config = {
-  context: path.resolve(__dirname, '/src'),
+var config = {
+  context: path.resolve(__dirname, 'src'),
 
   output: {
-    path: path.resolve(__dirname, '/build/public/assets'),
-    publicPath: '/assets/',
-    sourcePrefix: '  ',
+    path: path.resolve(__dirname, 'build/public/assets'),
+    publicPath: '/assets/'
   },
 
   module: {
@@ -40,8 +38,8 @@ const config = {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         include: [
-          path.resolve(__dirname, '/node_modules/react-routing/src'),
-          path.resolve(__dirname, '/src'),
+          //path.resolve(__dirname, 'node_modules/react-routing/src'),
+          path.resolve(__dirname, 'src'),
         ],
         query: {
           // https://github.com/babel/babel-loader#options
@@ -54,28 +52,25 @@ const config = {
             'es2015',
             'stage-0',
           ],
-          plugins: [
-            'transform-runtime',
-            ...DEBUG ? [] : [
-              'transform-react-remove-prop-types',
-              'transform-react-constant-elements',
-              'transform-react-inline-elements',
-            ],
-          ],
+          plugins: ['transform-runtime'].concat(DEBUG ? [] : [
+            'transform-react-remove-prop-types',
+            'transform-react-constant-elements',
+            'transform-react-inline-elements'
+          ]),
         },
       },
       {
         test: /\.css/,
         loaders: [
-          'isomorphic-style-loader',
-          `css-loader?${JSON.stringify({
+          //'isomorphic-style-loader',
+          'css-loader?' + JSON.stringify({
             sourceMap: DEBUG,
             // CSS Modules https://github.com/css-modules/css-modules
             modules: true,
             localIdentName: DEBUG ? '[name]_[local]_[hash:base64:3]' : '[hash:base64:4]',
             // CSS Nano http://cssnano.co/options/
             minimize: !DEBUG,
-          })}`,
+          }),
           'postcss-loader?pack=default',
         ],
       },
@@ -91,7 +86,7 @@ const config = {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
         loader: 'url-loader',
         query: {
-          name: DEBUG ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
+          name: DEBUG ? '[name].[ext]?[hash]' : '[hash].[ext]',
           limit: 10000,
         },
       },
@@ -99,7 +94,7 @@ const config = {
         test: /\.(eot|ttf|wav|mp3)$/,
         loader: 'file-loader',
         query: {
-          name: DEBUG ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
+          name: DEBUG ? '[name].[ext]?[hash]' : '[hash].[ext]',
         },
       },
       {
@@ -110,9 +105,17 @@ const config = {
   },
 
   resolve: {
-    root: path.resolve(__dirname, '/src'),
+    root: path.resolve(__dirname, 'src'),
     modulesDirectories: ['node_modules'],
     extensions: ['', '.js', '.jsx', '.json'],
+    alias: {
+      'view': 'views',
+      'component': 'components',
+      'content': 'content',
+      'font': 'public/font',
+      'img': 'public/img',
+      'vid': 'public/vid',
+    }
   },
 
   cache: DEBUG,
@@ -133,12 +136,9 @@ const config = {
   postcss(bundler) {
     return {
       default: [
-        // Transfer @import rule by inlining content, e.g. @import 'normalize.css'
-        // https://github.com/postcss/postcss-import
-        require('postcss-import')({ addDependencyTo: bundler }),
         // Sass like variables, e.g. $red: #f00 div { background: $red; }
         // https://github.com/postcss/postcss-simple-vars
-        require('postcss-simple-variables')(),
+        require('postcss-simple-vars')(),
         // W3C CSS Custom Media Queries, e.g. @custom-media --small-viewport (max-width: 30em);
         // https://github.com/postcss/postcss-custom-media
         require('postcss-custom-media')(),
@@ -169,7 +169,7 @@ const config = {
         // Transforms :not() W3C CSS Level 4 pseudo class to :not() CSS Level 3 selectors
         // https://github.com/postcss/postcss-selector-not
         require('postcss-selector-not')(),
-        // Add vendor prefixes to CSS rules using values from caniuse.com
+        // Add vendor prefixes to CSS rules using values = require(caniuse.com
         // https://github.com/postcss/autoprefixer
         require('autoprefixer')({ browsers: AUTOPREFIXER_BROWSERS }),
       ]
@@ -180,13 +180,12 @@ const config = {
 //
 // Configuration for the client-side bundle (client.js)
 // -----------------------------------------------------------------------------
-
-const clientConfig = extend(true, {}, config, {
-  entry: './src/client.js',
+var clientConfig = extend(true, {}, config, {
+  entry: 'client.jsx',
 
   output: {
-    filename: DEBUG ? '[name].js?[chunkhash]' : '[name].[chunkhash].js',
-    chunkFilename: DEBUG ? '[name].[id].js?[chunkhash]' : '[name].[id].[chunkhash].js',
+    filename: DEBUG ? '../[name].js?[chunkhash]' : '../[name].[chunkhash].js',
+    chunkFilename: DEBUG ? '../[name].[id].js?[chunkhash]' : '../[name].[id].[chunkhash].js',
   },
 
   target: 'web',
@@ -195,41 +194,40 @@ const clientConfig = extend(true, {}, config, {
 
     // Define free variables
     // https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-    new webpack.DefinePlugin({ ...GLOBALS, 'process.env.BROWSER': true }),
+    new webpack.DefinePlugin(extend({}, GLOBALS, {'process.env.BROWSER': true})),
 
     // Emit a file with assets paths
     // https://github.com/sporto/assets-webpack-plugin#options
     new AssetsPlugin({
-      path: path.resolve(__dirname, '../build'),
+      path: path.resolve(__dirname, 'build'),
       filename: 'assets.js',
-      processOutput: x => `module.exports = ${JSON.stringify(x)};`,
+      processOutput: function (x) { return 'module.exports = ' + JSON.stringify(x) },
     }),
 
     // Assign the module and chunk ids by occurrence count
     // Consistent ordering of modules required if using any hashing ([hash] or [chunkhash])
     // https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
-    new webpack.optimize.OccurrenceOrderPlugin(true),
+    new webpack.optimize.OccurrenceOrderPlugin(true)
 
-    ...DEBUG ? [] : [
+  ].concat(DEBUG ? [] : [
 
-      // Search for equal or similar files and deduplicate them in the output
-      // https://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
-      new webpack.optimize.DedupePlugin(),
+    // Search for equal or similar files and deduplicate them in the output
+    // https://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
+    new webpack.optimize.DedupePlugin(),
 
-      // Minimize all JavaScript output of chunks
-      // https://github.com/mishoo/UglifyJS2#compressor-options
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          screw_ie8: true, // jscs:ignore requireCamelCaseOrUpperCaseIdentifiers
-          warnings: VERBOSE,
-        },
-      }),
+    // Minimize all JavaScript output of chunks
+    // https://github.com/mishoo/UglifyJS2#compressor-options
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        screw_ie8: true, // jscs:ignore requireCamelCaseOrUpperCaseIdentifiers
+        warnings: VERBOSE,
+      },
+    }),
 
-      // A plugin for a more aggressive chunk merging strategy
-      // https://webpack.github.io/docs/list-of-plugins.html#aggressivemergingplugin
-      new webpack.optimize.AggressiveMergingPlugin(),
-    ],
-  ],
+    // A plugin for a more aggressive chunk merging strategy
+    // https://webpack.github.io/docs/list-of-plugins.html#aggressivemergingplugin
+    new webpack.optimize.AggressiveMergingPlugin(),
+  ]),
 
   // Choose a developer tool to enhance debugging
   // http://webpack.github.io/docs/configuration.html#devtool
@@ -240,11 +238,11 @@ const clientConfig = extend(true, {}, config, {
 // Configuration for the server-side bundle (server.js)
 // -----------------------------------------------------------------------------
 
-const serverConfig = extend(true, {}, config, {
-  entry: './src/server.js',
+var serverConfig = extend(true, {}, config, {
+  entry: 'server.jsx',
 
   output: {
-    filename: './build/server.js',
+    filename: '../../server.js',
     libraryTarget: 'commonjs2',
   },
 
@@ -253,7 +251,7 @@ const serverConfig = extend(true, {}, config, {
   externals: [
     /^\.\/assets$/,
     function filter(context, request, cb) {
-      const isExternal =
+      var isExternal =
         request.match(/^[@a-z][a-z\/\.\-0-9]*$/i) &&
         !request.match(/^react-routing/) &&
         !context.match(/[\\/]react-routing/);
@@ -265,7 +263,7 @@ const serverConfig = extend(true, {}, config, {
 
     // Define free variables
     // https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-    new webpack.DefinePlugin({ ...GLOBALS, 'process.env.BROWSER': false }),
+    new webpack.DefinePlugin(extend({}, GLOBALS, {'process.env.BROWSER': false})),
 
     // Adds a banner to the top of each generated chunk
     // https://webpack.github.io/docs/list-of-plugins.html#bannerplugin
@@ -285,4 +283,4 @@ const serverConfig = extend(true, {}, config, {
   devtool: 'source-map',
 });
 
-export default [clientConfig, serverConfig];
+module.exports = [clientConfig, serverConfig];

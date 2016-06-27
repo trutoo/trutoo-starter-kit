@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
+/* Assets */
+
 /* Styles */
-import './%NAME%.css'
+import style from './style.css'
 
 /* Utilities */
 

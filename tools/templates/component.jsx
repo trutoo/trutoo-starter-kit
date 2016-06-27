@@ -1,7 +1,9 @@
 import React from 'react';
 
+/* Assets */
+
 /* Styles */
-import './%NAME%.css'
+import style from './style.css'
 
 /* Utilities */
 

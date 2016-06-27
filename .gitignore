@@ -44,4 +44,5 @@ bower_components
 # App Files
 # --------------------
 .tmp/
-.dist/
+dist/
+build/
