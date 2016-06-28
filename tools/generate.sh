@@ -25,24 +25,24 @@ function presentational {
 	printf "${CO}Creating ${NAME} presentational component${NC}\n"
 	DIR="../src/components/${NAME}"
 	mkdir -p $DIR
-	sed -e "s;%NAME%;${NAME};g" templates/component.jsx > "${DIR}/index.jsx"
-	sed -e "s;%NAME%;${NAME};g" templates/component-style.css > "${DIR}/style.css"
+	sed -e "s;%NAME%;${NAME};g" ./templates/component.jsx > "${DIR}/index.jsx"
+	sed -e "s;%NAME%;${NAME};g" ./templates/component-style.css > "${DIR}/style.css"
 }
 
 function container {
 	printf "${CO}Creating ${NAME} container component${NC}\n"
 	DIR="../src/components/${NAME}"
 	mkdir -p $DIR
-	sed -e "s;%NAME%;${NAME};g" templates/component-redux.jsx > "${DIR}/index.jsx"
-	sed -e "s;%NAME%;${NAME};g" templates/component-style.css > "${DIR}/style.css"
+	sed -e "s;%NAME%;${NAME};g" ./templates/component-redux.jsx > "${DIR}/index.jsx"
+	sed -e "s;%NAME%;${NAME};g" ./templates/component-style.css > "${DIR}/style.css"
 }
 
 function view {
 	printf "${CO}Creating ${NAME} view component${NC}\n"
 	DIR="../src/views/${NAME}"
 	mkdir -p $DIR
-	sed -e "s;%NAME%;${NAME};g" templates/component-redux.jsx > "${DIR}/index.jsx"
-	sed -e "s;%NAME%;${NAME};g" templates/component-style.css > "${DIR}/style.css"
+	sed -e "s;%NAME%;${NAME};g" ./templates/component-redux.jsx > "${DIR}/index.jsx"
+	sed -e "s;%NAME%;${NAME};g" ./templates/component-style.css > "${DIR}/style.css"
 }
 
 # Switch for specific build processes

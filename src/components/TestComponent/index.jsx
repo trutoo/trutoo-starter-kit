@@ -8,9 +8,10 @@ import style from './style.css';
 /* Components */
 
 /* Assets */
-import image from 'img/test.png';
+import image from 'img/tiger.svg';
+import image2 from 'img/test2.jpg';
 
-export default class Test extends React.Component {
+export default class TestComponent extends React.Component {
 	static propTypes = {
 		name: React.PropTypes.string,
 	};

@@ -98,8 +98,8 @@ var config = {
         },
       },
       {
-        test: /\.jade$/,
-        loader: 'jade-loader',
+        test: /\.(pug|jade)$/,
+        loader: 'pug-loader',
       },
     ],
   },
@@ -111,6 +111,7 @@ var config = {
     alias: {
       'view': 'views',
       'component': 'components',
+      'endpoint': 'endpoints',
       'content': 'content',
       'font': 'public/font',
       'img': 'public/img',
@@ -136,9 +137,15 @@ var config = {
   postcss(bundler) {
     return {
       default: [
+      // Custom vr unit to help maintain a vertical rhythm e.g. body {font: 16px / 1.5 sans-serif;} p {margin-bottom: 2vr}
+        // https://github.com/jameskolce/postcss-lh
+        require('postcss-lh')({ rootSelector: 'body', rhythmUnit: 'vr' }),
         // Sass like variables, e.g. $red: #f00 div { background: $red; }
         // https://github.com/postcss/postcss-simple-vars
         require('postcss-simple-vars')(),
+        // W3C calc() function, e.g. div { height: calc(100px - 2em); }
+        // https://github.com/postcss/postcss-calc
+        require('postcss-calc')(),
         // W3C CSS Custom Media Queries, e.g. @custom-media --small-viewport (max-width: 30em);
         // https://github.com/postcss/postcss-custom-media
         require('postcss-custom-media')(),
@@ -148,9 +155,6 @@ var config = {
         // W3C CSS Custom Selectors, e.g. @custom-selector :--heading h1, h2, h3, h4, h5, h6;
         // https://github.com/postcss/postcss-custom-selectors
         require('postcss-custom-selectors')(),
-        // W3C calc() function, e.g. div { height: calc(100px - 2em); }
-        // https://github.com/postcss/postcss-calc
-        require('postcss-calc')(),
         // Allows you to nest one style rule inside another
         // https://github.com/jonathantneal/postcss-nesting
         require('postcss-nesting')(),

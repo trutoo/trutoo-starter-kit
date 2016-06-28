@@ -1,22 +1,9 @@
+/* React */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Router, browserHistroy} from 'react-router';
 
-import Test from 'component/Test';
+/* Routes */
+import Routes from 'endpoint/Routes.jsx';
 
-export default class App extends React.Component {
-  static propTypes = {
-    name: React.PropTypes.string,
-  };
-
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <Test/>
-    );
-  }
-}
-
-ReactDOM.render(<App />, document.getElementById('App'));
+ReactDOM.render(<Router history={browserHistroy} routes={Routes} />, document.getElementById('root'));
