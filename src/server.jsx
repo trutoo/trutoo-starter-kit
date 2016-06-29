@@ -36,7 +36,6 @@ app.get('*', function (req, res) {
 			const data = {title: '', body: '', entry: assets.main.js};
 			data.body = renderToString(<RouterContext {...renderProps} />);
 			data.title = Helmet.rewind().title.toString();
-			console.log(index, data);
 			res.status(200).send(index(data));
 
 		} else {

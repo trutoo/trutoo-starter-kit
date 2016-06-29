@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
 
 /* Assets */
 
@@ -9,12 +8,6 @@ import style from './style.css'
 /* Utilities */
 
 /* Components */
-
-function mapStateToProps(state) {
-	return {
-
-	};
-}
 
 export class TestView extends React.Component {
 	static propTypes = {
@@ -31,8 +24,3 @@ export class TestView extends React.Component {
 		);
 	}
 }
-
-export default connect(
-	mapStateToProps,
-	// Implement map dispatch to props
-)(TestView);
