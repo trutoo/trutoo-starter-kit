@@ -7,4 +7,4 @@ npm run copy
 npm run build
 
 printf "${CO}Initializing Server${NC}\n"
-node .dist/server.js
+node build/server.js

@@ -1,7 +1,7 @@
 /* Endpoint Controllers */
 import EmailEndpoint from './EmailEndpoint';
 
-export default Endpoints = function(app) {
+const Endpoints = function(app) {
 
 	/* Email endpoint */
 	app.post('/email', function(req, res) {
@@ -10,3 +10,5 @@ export default Endpoints = function(app) {
 		})
 	});
 }
+
+export default Endpoints;

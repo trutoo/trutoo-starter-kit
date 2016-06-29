@@ -8,8 +8,8 @@ import style from './style.css';
 /* Components */
 
 /* Assets */
-import image from 'img/tiger.svg';
-import image2 from 'img/test2.jpg';
+import image from '../../public/img/tiger.svg';
+import image2 from '../../public/img/test2.jpg';
 
 export default class TestComponent extends React.Component {
 	static propTypes = {

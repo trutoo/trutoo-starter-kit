@@ -3,11 +3,13 @@ import React from 'react';
 /* Assets */
 
 /* Styles */
+import trutooStyle from '../../libs/trutoo-style-kit/main.css'
 import style from './style.css'
 
 /* Utilities */
 
 /* Components */
+import TestComponent from '../TestComponent'
 
 export default class App extends React.Component {
 	static propTypes = {
@@ -20,7 +22,10 @@ export default class App extends React.Component {
 
 	render() {
 		return (
-			<div></div>
+			<div>
+				<TestComponent />
+				{this.props.children}
+			</div>
 		);
 	}
 }

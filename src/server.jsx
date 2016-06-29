@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 import {match, RouterContext} from 'react-router';
 
 /* Config */
-import {port, auth} from './config.js';
+import {port, auth} from './config.jsx';
 
 /* Express */
 import express from 'express';
@@ -16,11 +16,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 /* Static Assets */
-import assets from './assets.js'
+import assets from './assets'
 app.use(express.static('build/public'));
 
 /* Routes */
-import Routes from 'endpoint/Routes.jsx';
+import Routes from './endpoints/Routes.jsx';
 app.get('*', function (req, res) {
 
 	match({routes: Routes, location: req.url}, (error, redirectLocation, renderProps) => {
@@ -32,10 +32,11 @@ app.get('*', function (req, res) {
 			res.redirect(302, redirectLocation.pathname + redirectLocation.search);
 
 		} else if (renderProps) {
-			const index = require('./index.pug');
+			const index = require('./index.jade');
 			const data = {title: '', body: '', entry: assets.main.js};
 			data.body = renderToString(<RouterContext {...renderProps} />);
 			data.title = Helmet.rewind().title.toString();
+			console.log(index, data);
 			res.status(200).send(index(data));
 
 		} else {
@@ -45,7 +46,7 @@ app.get('*', function (req, res) {
 })
 
 /* Enpoints */
-import Endpoints from 'endpoint/Endpoints.js'
+import Endpoints from './endpoints/Endpoints.jsx'
 Endpoints(app);
 
 /* Init Server */

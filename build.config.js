@@ -98,8 +98,8 @@ var config = {
         },
       },
       {
-        test: /\.(pug|jade)$/,
-        loader: 'pug-loader',
+        test: /\.jade$/,
+        loader: 'jade-loader',
       },
     ],
   },
@@ -108,15 +108,6 @@ var config = {
     root: path.resolve(__dirname, 'src'),
     modulesDirectories: ['node_modules'],
     extensions: ['', '.js', '.jsx', '.json'],
-    alias: {
-      'view': 'views',
-      'component': 'components',
-      'endpoint': 'endpoints',
-      'content': 'content',
-      'font': 'public/font',
-      'img': 'public/img',
-      'vid': 'public/vid',
-    }
   },
 
   cache: DEBUG,
@@ -137,15 +128,15 @@ var config = {
   postcss(bundler) {
     return {
       default: [
-      // Custom vr unit to help maintain a vertical rhythm e.g. body {font: 16px / 1.5 sans-serif;} p {margin-bottom: 2vr}
+        // Custom vr unit to help maintain a vertical rhythm, e.g. body { font: 16px / 1.5 sans-serif; } p { margin-bottom: 2vr; }
         // https://github.com/jameskolce/postcss-lh
         require('postcss-lh')({ rootSelector: 'body', rhythmUnit: 'vr' }),
+        // Simple template to prevent repeating code, e.g. @define-mixin headline $size { font-size: $size; } span { @mixin headline 32px; }
+        // https://github.com/postcss/postcss-mixins
+        require('postcss-mixins')(),
         // Sass like variables, e.g. $red: #f00 div { background: $red; }
         // https://github.com/postcss/postcss-simple-vars
         require('postcss-simple-vars')(),
-        // W3C calc() function, e.g. div { height: calc(100px - 2em); }
-        // https://github.com/postcss/postcss-calc
-        require('postcss-calc')(),
         // W3C CSS Custom Media Queries, e.g. @custom-media --small-viewport (max-width: 30em);
         // https://github.com/postcss/postcss-custom-media
         require('postcss-custom-media')(),
@@ -158,6 +149,12 @@ var config = {
         // Allows you to nest one style rule inside another
         // https://github.com/jonathantneal/postcss-nesting
         require('postcss-nesting')(),
+        // Enables @for loop syntax, e.g. @for @i from $from to $to { .a-@i { width: calc(100% / $to * @i) } }
+        // https://github.com/xori/postcss-for
+        require('postcss-for-var')(),
+        // W3C calc() function, e.g. div { height: calc(100px - 2em); }
+        // https://github.com/postcss/postcss-calc
+        require('postcss-calc')(),
         // W3C color() function, e.g. div { background: color(red alpha(90%)); }
         // https://github.com/postcss/postcss-color-function
         require('postcss-color-function')(),
@@ -185,7 +182,7 @@ var config = {
 // Configuration for the client-side bundle (client.js)
 // -----------------------------------------------------------------------------
 var clientConfig = extend(true, {}, config, {
-  entry: 'client.jsx',
+  entry: './client.jsx',
 
   output: {
     filename: DEBUG ? '../[name].js?[chunkhash]' : '../[name].[chunkhash].js',
@@ -243,7 +240,7 @@ var clientConfig = extend(true, {}, config, {
 // -----------------------------------------------------------------------------
 
 var serverConfig = extend(true, {}, config, {
-  entry: 'server.jsx',
+  entry: './server.jsx',
 
   output: {
     filename: '../../server.js',
