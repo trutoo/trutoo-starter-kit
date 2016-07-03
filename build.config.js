@@ -60,13 +60,28 @@ var config = {
         },
       },
       {
-        test: /\.css/,
+        test: /\.css$/,
+        exclude: path.resolve(__dirname, 'src/index.css'),
         loaders: [
           //'isomorphic-style-loader',
           'css-loader?' + JSON.stringify({
             sourceMap: DEBUG,
             // CSS Modules https://github.com/css-modules/css-modules
             modules: true,
+            localIdentName: DEBUG ? '[name]_[local]_[hash:base64:3]' : '[hash:base64:4]',
+            // CSS Nano http://cssnano.co/options/
+            minimize: !DEBUG,
+          }),
+          'postcss-loader?pack=default',
+        ],
+      },
+      {
+        test: /\.css$/,
+        include: path.resolve(__dirname, 'src/index.css'),
+        loaders: [
+          //'isomorphic-style-loader',
+          'css-loader?' + JSON.stringify({
+            sourceMap: DEBUG,
             localIdentName: DEBUG ? '[name]_[local]_[hash:base64:3]' : '[hash:base64:4]',
             // CSS Nano http://cssnano.co/options/
             minimize: !DEBUG,
@@ -128,15 +143,18 @@ var config = {
   postcss(bundler) {
     return {
       default: [
-        // Custom vr unit to help maintain a vertical rhythm, e.g. body { font: 16px / 1.5 sans-serif; } p { margin-bottom: 2vr; }
-        // https://github.com/jameskolce/postcss-lh
-        require('postcss-lh')({ rootSelector: 'body', rhythmUnit: 'vr' }),
+        // Transfer @import rule by inlining content, e.g. @import 'normalize.css'
+        // https://github.com/postcss/postcss-import
+        require('postcss-import')({ addDependencyTo: bundler }),
         // Simple template to prevent repeating code, e.g. @define-mixin headline $size { font-size: $size; } span { @mixin headline 32px; }
         // https://github.com/postcss/postcss-mixins
         require('postcss-mixins')(),
         // Sass like variables, e.g. $red: #f00 div { background: $red; }
         // https://github.com/postcss/postcss-simple-vars
         require('postcss-simple-vars')(),
+        // Custom vr unit to help maintain a vertical rhythm, e.g. body { font: 16px / 1.5 sans-serif; } p { margin-bottom: 2vr; }
+        // https://github.com/jameskolce/postcss-lh
+        require('postcss-lh')({ rootSelector: 'body', rhythmUnit: 'vr' }),
         // W3C CSS Custom Media Queries, e.g. @custom-media --small-viewport (max-width: 30em);
         // https://github.com/postcss/postcss-custom-media
         require('postcss-custom-media')(),

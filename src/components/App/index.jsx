@@ -3,7 +3,6 @@ import React from 'react';
 /* Assets */
 
 /* Styles */
-import trutooStyle from '../../libs/trutoo-style-kit/main.css'
 import style from './style.css'
 
 /* Utilities */
@@ -21,8 +20,10 @@ export default class App extends React.Component {
 	}
 
 	render() {
+		console.log(style.App);
 		return (
-			<div>
+			<div className={style.App}>
+				<button>Test</button>
 				<TestComponent />
 				{this.props.children}
 			</div>

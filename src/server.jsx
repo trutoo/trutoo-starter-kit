@@ -33,7 +33,8 @@ app.get('*', function (req, res) {
 
 		} else if (renderProps) {
 			const index = require('./index.jade');
-			const data = {title: '', body: '', entry: assets.main.js};
+			const style = require('./index.css');
+			const data = {title: '', style: style, body: '', entry: assets.main.js};
 			data.body = renderToString(<RouterContext {...renderProps} />);
 			data.title = Helmet.rewind().title.toString();
 			res.status(200).send(index(data));
