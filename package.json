@@ -74,14 +74,8 @@
   "scripts": {
     "clean": "bash tools/clean.sh",
     "copy": "bash tools/copy.sh",
+    "bundle": "bash tools/bundle.sh",
     "build": "bash tools/build.sh",
-    "build:client": "bash tools/build.sh client",
-    "build:server": "bash tools/build.sh server",
-    "build:styles": "bash tools/build.sh styles",
-    "watch": "bash tools/watch.sh",
-    "watch:client": "bash tools/watch.sh client",
-    "watch:server": "bash tools/watch.sh server",
-    "watch:styles": "bash tools/watch.sh styles",
     "test": "bash tools/test.sh",
     "start": "bash tools/serve.sh"
   }

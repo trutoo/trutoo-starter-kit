@@ -20,9 +20,9 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		console.log(style.App);
+		console.log(style);
 		return (
-			<div className={style.App}>
+			<div>
 				<button>Test</button>
 				<TestComponent />
 				{this.props.children}
