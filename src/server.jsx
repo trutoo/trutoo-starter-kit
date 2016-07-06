@@ -32,9 +32,10 @@ app.get('*', function (req, res) {
 			res.redirect(302, redirectLocation.pathname + redirectLocation.search);
 
 		} else if (renderProps) {
+			console.log(renderProps);
 			const index = require('./index.jade');
-			const style = require('./index.css');
-			const data = {title: '', style: style, body: '', entry: assets.main.js};
+			//const style = require('./index.css');
+			const data = {title: '', body: '', css: assets.main.css, javascript: assets.main.js};
 			data.body = renderToString(<RouterContext {...renderProps} />);
 			data.title = Helmet.rewind().title.toString();
 			res.status(200).send(index(data));

@@ -1,5 +1,9 @@
+@import '../../styles/vars.css';
+@import '../../styles/mixins.css';
+
 .App {
-	background: green;
+	background: $c_color_primary;
+	line-height: 2vr;
 }
 
 .Penis {

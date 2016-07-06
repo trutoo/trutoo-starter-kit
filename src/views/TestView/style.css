@@ -1,3 +1,6 @@
+@import '../../styles/vars.css';
+@import '../../styles/mixins.css';
+
 .TestView {
 	
 }

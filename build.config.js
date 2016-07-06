@@ -2,6 +2,8 @@ var path = require('path');
 var webpack = require('webpack');
 var extend = require('extend');
 var AssetsPlugin = require('assets-webpack-plugin');
+var LiveReloadPlugin = require('webpack-livereload-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var DEBUG = process.argv.indexOf('--release') == -1;
 var VERBOSE = process.argv.indexOf('--verbose') != -1;
@@ -61,10 +63,10 @@ var config = {
       },
       {
         test: /\.css$/,
-        exclude: path.resolve(__dirname, 'src/index.css'),
-        loaders: [
-          //'isomorphic-style-loader',
-          'css-loader?' + JSON.stringify({
+        exclude: path.resolve(__dirname, 'src/styles/index.css'),
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          ['css-loader?' + JSON.stringify({
             sourceMap: DEBUG,
             // CSS Modules https://github.com/css-modules/css-modules
             modules: true,
@@ -72,22 +74,21 @@ var config = {
             // CSS Nano http://cssnano.co/options/
             minimize: !DEBUG,
           }),
-          'postcss-loader?pack=default',
-        ],
+          'postcss-loader?pack=default'].join('!')
+        ),
       },
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, 'src/index.css'),
-        loaders: [
-          //'isomorphic-style-loader',
-          'css-loader?' + JSON.stringify({
+        include: path.resolve(__dirname, 'src/styles/index.css'),
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          ['css-loader?' + JSON.stringify({
             sourceMap: DEBUG,
-            localIdentName: DEBUG ? '[name]_[local]_[hash:base64:3]' : '[hash:base64:4]',
             // CSS Nano http://cssnano.co/options/
             minimize: !DEBUG,
           }),
-          'postcss-loader?pack=default',
-        ],
+          'postcss-loader?pack=default'].join('!')
+        ),
       },
       {
         test: /\.json$/,
@@ -154,7 +155,7 @@ var config = {
         require('postcss-simple-vars')(),
         // Custom vr unit to help maintain a vertical rhythm, e.g. body { font: 16px / 1.5 sans-serif; } p { margin-bottom: 2vr; }
         // https://github.com/jameskolce/postcss-lh
-        require('postcss-lh')({ rootSelector: 'body', rhythmUnit: 'vr' }),
+        require('postcss-lh')({ lineHeight: 1.75, rhythmUnit: 'vr' }),
         // W3C CSS Custom Media Queries, e.g. @custom-media --small-viewport (max-width: 30em);
         // https://github.com/postcss/postcss-custom-media
         require('postcss-custom-media')(),
@@ -226,7 +227,16 @@ var clientConfig = extend(true, {}, config, {
     // Assign the module and chunk ids by occurrence count
     // Consistent ordering of modules required if using any hashing ([hash] or [chunkhash])
     // https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
-    new webpack.optimize.OccurrenceOrderPlugin(true)
+    new webpack.optimize.OccurrenceOrderPlugin(true),
+
+    // LiveReload plugin to avoid manually having to refresh for changes in your browser
+    // https://github.com/statianzo/webpack-livereload-plugin
+    new LiveReloadPlugin({
+      port: 9201,
+      appendScriptTag: true
+    }),
+
+    new ExtractTextPlugin("../[name].css", {allChunks: true})
 
   ].concat(DEBUG ? [] : [
 
@@ -287,7 +297,10 @@ var serverConfig = extend(true, {}, config, {
     // Adds a banner to the top of each generated chunk
     // https://webpack.github.io/docs/list-of-plugins.html#bannerplugin
     new webpack.BannerPlugin('require("source-map-support").install();',
-      { raw: true, entryOnly: false }),
+      { raw: true, entryOnly: false }
+    ),
+
+    new ExtractTextPlugin("../[name].css", {allChunks: true})
   ],
 
   node: {
