@@ -22,7 +22,7 @@ export default class TestComponent extends React.Component {
 
 	render() {
 		return (
-			<div><img src={image} /></div>
+			<div><img src={image2} /></div>
 		);
 	}
 }

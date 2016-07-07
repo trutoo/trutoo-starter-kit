@@ -35,6 +35,7 @@
     "extend": "^3.0.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
+    "ignore-loader": "^0.1.1",
     "isomorphic-style-loader": "^1.0.0",
     "jade": "^1.11.0",
     "jade-loader": "^0.8.0",

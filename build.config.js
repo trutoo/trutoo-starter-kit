@@ -62,35 +62,6 @@ var config = {
         },
       },
       {
-        test: /\.css$/,
-        exclude: path.resolve(__dirname, 'src/styles/index.css'),
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          ['css-loader?' + JSON.stringify({
-            sourceMap: DEBUG,
-            // CSS Modules https://github.com/css-modules/css-modules
-            modules: true,
-            localIdentName: DEBUG ? '[name]_[local]_[hash:base64:3]' : '[hash:base64:4]',
-            // CSS Nano http://cssnano.co/options/
-            minimize: !DEBUG,
-          }),
-          'postcss-loader?pack=default'].join('!')
-        ),
-      },
-      {
-        test: /\.css$/,
-        include: path.resolve(__dirname, 'src/styles/index.css'),
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          ['css-loader?' + JSON.stringify({
-            sourceMap: DEBUG,
-            // CSS Nano http://cssnano.co/options/
-            minimize: !DEBUG,
-          }),
-          'postcss-loader?pack=default'].join('!')
-        ),
-      },
-      {
         test: /\.json$/,
         loader: 'json-loader',
       },
@@ -99,7 +70,7 @@ var config = {
         loader: 'raw-loader',
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+        test: /\.(png|jpe?g|gif|svg|woff2?)$/,
         loader: 'url-loader',
         query: {
           name: DEBUG ? '[name].[ext]?[hash]' : '[hash].[ext]',
@@ -140,6 +111,54 @@ var config = {
     cached: VERBOSE,
     cachedAssets: VERBOSE,
   },
+};
+
+//
+// Configuration for the client-side bundle (client.js)
+// -----------------------------------------------------------------------------
+var clientConfig = extend(true, {}, config, {
+  entry: './client.jsx',
+
+  output: {
+    filename: DEBUG ? '../[name].js?[chunkhash]' : '../[name].[chunkhash].js',
+    chunkFilename: DEBUG ? '../[name].[id].js?[chunkhash]' : '../[name].[id].[chunkhash].js',
+  },
+
+  target: 'web',
+
+  module: {
+    loaders: config.module.loaders.concat([
+      {
+        test: /\.css$/,
+        exclude: path.resolve(__dirname, 'src/styles/index.css'),
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          ['css-loader?' + JSON.stringify({
+            sourceMap: DEBUG,
+            // CSS Modules https://github.com/css-modules/css-modules
+            modules: true,
+            localIdentName: DEBUG ? '[name]_[local]_[hash:base64:3]' : '[hash:base64:4]',
+            // CSS Nano http://cssnano.co/options/
+            minimize: !DEBUG,
+          }),
+          'postcss-loader?pack=default'].join('!')
+        ),
+      },
+      {
+        test: /\.css$/,
+        include: path.resolve(__dirname, 'src/styles/index.css'),
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          ['css-loader?' + JSON.stringify({
+            sourceMap: DEBUG,
+            // CSS Nano http://cssnano.co/options/
+            minimize: !DEBUG,
+          }),
+          'postcss-loader?pack=default'].join('!')
+        ),
+      }
+    ])
+  },
 
   postcss(bundler) {
     return {
@@ -153,7 +172,7 @@ var config = {
         // Sass like variables, e.g. $red: #f00 div { background: $red; }
         // https://github.com/postcss/postcss-simple-vars
         require('postcss-simple-vars')(),
-        // Custom vr unit to help maintain a vertical rhythm, e.g. body { font: 16px / 1.5 sans-serif; } p { margin-bottom: 2vr; }
+        // Custom vr unit to help maintain a vertical rhythm, e.g. p { margin-bottom: 2vr; }
         // https://github.com/jameskolce/postcss-lh
         require('postcss-lh')({ lineHeight: 1.75, rhythmUnit: 'vr' }),
         // W3C CSS Custom Media Queries, e.g. @custom-media --small-viewport (max-width: 30em);
@@ -195,20 +214,6 @@ var config = {
       ]
     };
   },
-};
-
-//
-// Configuration for the client-side bundle (client.js)
-// -----------------------------------------------------------------------------
-var clientConfig = extend(true, {}, config, {
-  entry: './client.jsx',
-
-  output: {
-    filename: DEBUG ? '../[name].js?[chunkhash]' : '../[name].[chunkhash].js',
-    chunkFilename: DEBUG ? '../[name].[id].js?[chunkhash]' : '../[name].[id].[chunkhash].js',
-  },
-
-  target: 'web',
 
   plugins: [
 
@@ -220,9 +225,13 @@ var clientConfig = extend(true, {}, config, {
     // https://github.com/sporto/assets-webpack-plugin#options
     new AssetsPlugin({
       path: path.resolve(__dirname, 'build'),
-      filename: 'assets.js',
-      processOutput: function (x) { return 'module.exports = ' + JSON.stringify(x) },
+      filename: 'assets.json',
+      //processOutput: function (x) { return 'module.exports = ' + JSON.stringify(x) },
     }),
+
+    // Move every require("style.css") in entry chunks into a separate css output file.
+    // https://github.com/webpack/extract-text-webpack-plugin
+    new ExtractTextPlugin(DEBUG ? '../[name].css?[chunkhash]' : '../[name].[chunkhash].css', {allChunks: true}),
 
     // Assign the module and chunk ids by occurrence count
     // Consistent ordering of modules required if using any hashing ([hash] or [chunkhash])
@@ -235,8 +244,6 @@ var clientConfig = extend(true, {}, config, {
       port: 9201,
       appendScriptTag: true
     }),
-
-    new ExtractTextPlugin("../[name].css", {allChunks: true})
 
   ].concat(DEBUG ? [] : [
 
@@ -277,16 +284,20 @@ var serverConfig = extend(true, {}, config, {
 
   target: 'node',
 
-  externals: [
-    /^\.\/assets$/,
-    function filter(context, request, cb) {
-      var isExternal =
-        request.match(/^[@a-z][a-z\/\.\-0-9]*$/i) &&
-        !request.match(/^react-routing/) &&
-        !context.match(/[\\/]react-routing/);
-      cb(null, Boolean(isExternal));
-    },
-  ],
+  module: {
+    loaders: config.module.loaders.concat([
+      {
+        test: /\.css$/,
+        exclude: path.resolve(__dirname, 'src/styles/index.css'),
+        loader:
+          'css-loader/locals?' + JSON.stringify({
+            // CSS Modules https://github.com/css-modules/css-modules
+            modules: true,
+            localIdentName: DEBUG ? '[name]_[local]_[hash:base64:3]' : '[hash:base64:4]',
+          })
+      }
+    ])
+  },
 
   plugins: [
 
@@ -299,8 +310,6 @@ var serverConfig = extend(true, {}, config, {
     new webpack.BannerPlugin('require("source-map-support").install();',
       { raw: true, entryOnly: false }
     ),
-
-    new ExtractTextPlugin("../[name].css", {allChunks: true})
   ],
 
   node: {
