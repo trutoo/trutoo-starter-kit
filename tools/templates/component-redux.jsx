@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 /* Assets */
 
 /* Styles */
-import style from './style.css'
+import s from './style.css'
 
 /* Utilities */
 
@@ -27,7 +27,7 @@ export class %NAME% extends React.Component {
 
 	render() {
 		return (
-			<div></div>
+			<div className={s.%NAME%}></div>
 		);
 	}
 }

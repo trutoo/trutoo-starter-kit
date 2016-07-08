@@ -2,10 +2,6 @@
 @import '../../styles/mixins.css';
 
 .App {
-	background: $c_color_primary;
-	line-height: 2vr;
-}
-
-.Penis {
-	color: yellow;
+	padding: 2vr 2vr;
+	background-color: $c_light_secondary;
 }

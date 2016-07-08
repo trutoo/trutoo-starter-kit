@@ -1,6 +1,6 @@
 @import '../../styles/vars.css';
 @import '../../styles/mixins.css';
 
-.TestComponent {
-	background-color: #000;
+.HomeView {
+	padding: 2vr;
 }

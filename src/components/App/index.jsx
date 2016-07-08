@@ -3,12 +3,11 @@ import React from 'react';
 /* Assets */
 
 /* Styles */
-import style from './style.css';
+import s from './style.css';
 
 /* Utilities */
 
 /* Components */
-import TestComponent from '../TestComponent';
 
 export default class App extends React.Component {
 	static propTypes = {
@@ -21,9 +20,7 @@ export default class App extends React.Component {
 
 	render() {
 		return (
-			<div className={style.App + ' card'}>
-				<button>Test</button>
-				<TestComponent />
+			<div className={s.App}>
 				{this.props.children}
 			</div>
 		);

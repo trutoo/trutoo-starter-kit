@@ -26,7 +26,37 @@ fs.readFile(__dirname + '/assets.json', function (err, data) {
 
 app.use(express.static('build/public'));
 
+//------------------------------------------------------------------------------------
+// HOT RELOAD FOR DEVELOPMENT
+//------------------------------------------------------------------------------------
+(function() {
+
+  // Step 1: Create & configure a webpack compiler
+  var webpack = require('webpack');
+  var webpackConfig = require('../tools/build.config');
+  var compiler = webpack(webpackConfig);
+
+  // Step 2: Attach the dev middleware to the compiler & the server
+  app.use(require("webpack-dev-middleware")(compiler, {
+  	noInfo: true,
+	  hot: true,
+	  publicPath: '/assets/',
+	  stats: {
+	    colors: true,
+	  },
+	  historyApiFallback: true,
+  }));
+
+  // Step 3: Attach the hot middleware to the compiler & the server
+  app.use(require("webpack-hot-middleware")(compiler, {
+    log: console.log,
+    path: '/__webpack_hmr',
+    heartbeat: 10 * 1000
+  }));
+})();
+
 /* Routes */
+import index from './index.jade';
 import Routes from './endpoints/Routes.jsx';
 app.get('*', function (req, res) {
 
@@ -39,7 +69,6 @@ app.get('*', function (req, res) {
 			res.redirect(302, redirectLocation.pathname + redirectLocation.search);
 
 		} else if (renderProps) {
-			var index = require('./index.jade');
 			var data = {title: '', body: '', css: assets.main.css, javascript: assets.main.js};
 			data.body = renderToString(<RouterContext {...renderProps} />);
 			data.title = Helmet.rewind().title.toString();

@@ -41,7 +41,7 @@ function view {
 	printf "${CO}Creating ${NAME} view component${NC}\n"
 	DIR="../src/views/${NAME}"
 	mkdir -p $DIR
-	sed -e "s;%NAME%;${NAME};g" ./templates/component-redux.jsx > "${DIR}/index.jsx"
+	sed -e "s;%NAME%;${NAME};g" ./templates/component.jsx > "${DIR}/index.jsx"
 	sed -e "s;%NAME%;${NAME};g" ./templates/component-style.css > "${DIR}/style.css"
 }
 

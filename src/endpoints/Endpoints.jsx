@@ -1,11 +1,11 @@
 /* Endpoint Controllers */
-import EmailEndpoint from './EmailEndpoint';
+import ExampleEndpoint from './ExampleEndpoint';
 
 const Endpoints = function(app) {
 
 	/* Email endpoint */
 	app.post('/email', function(req, res) {
-		EmailEndpoint.send(req.body, function(response) {
+		ExampleEndpoint.send(req.body, function(response) {
 			res.json(response);
 		})
 	});

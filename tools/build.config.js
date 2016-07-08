@@ -27,10 +27,10 @@ var GLOBALS = {
 // client-side (client.js) and server-side (server.js) bundles
 // -----------------------------------------------------------------------------
 var config = {
-  context: path.resolve(__dirname, 'src'),
+  context: path.resolve(process.cwd(), 'src'),
 
   output: {
-    path: path.resolve(__dirname, 'build/public/assets'),
+    path: path.resolve(process.cwd(), 'build/public/assets'),
     publicPath: '/assets/'
   },
 
@@ -40,8 +40,7 @@ var config = {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         include: [
-          //path.resolve(__dirname, 'node_modules/react-routing/src'),
-          path.resolve(__dirname, 'src'),
+          path.resolve(process.cwd(), 'src'),
         ],
         query: {
           // https://github.com/babel/babel-loader#options
@@ -92,7 +91,7 @@ var config = {
   },
 
   resolve: {
-    root: path.resolve(__dirname, 'src'),
+    root: path.resolve(process.cwd(), 'src'),
     modulesDirectories: ['node_modules'],
     extensions: ['', '.js', '.jsx', '.json'],
   },
@@ -117,11 +116,14 @@ var config = {
 // Configuration for the client-side bundle (client.js)
 // -----------------------------------------------------------------------------
 var clientConfig = extend(true, {}, config, {
-  entry: './client.jsx',
+  entry: [
+    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+    './client.jsx'
+  ],
 
   output: {
-    filename: DEBUG ? '../[name].js?[chunkhash]' : '../[name].[chunkhash].js',
-    chunkFilename: DEBUG ? '../[name].[id].js?[chunkhash]' : '../[name].[id].[chunkhash].js',
+    filename: DEBUG ? '../[name].js?[hash]' : '../[name].[hash].js',
+    chunkFilename: DEBUG ? '../[name].[id].js?[hash]' : '../[name].[id].[hash].js',
   },
 
   target: 'web',
@@ -130,7 +132,7 @@ var clientConfig = extend(true, {}, config, {
     loaders: config.module.loaders.concat([
       {
         test: /\.css$/,
-        exclude: path.resolve(__dirname, 'src/styles/index.css'),
+        exclude: path.resolve(process.cwd(), 'src/styles/index.css'),
         loader: ExtractTextPlugin.extract(
           'style-loader',
           ['css-loader?' + JSON.stringify({
@@ -146,7 +148,7 @@ var clientConfig = extend(true, {}, config, {
       },
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, 'src/styles/index.css'),
+        include: path.resolve(process.cwd(), 'src/styles/index.css'),
         loader: ExtractTextPlugin.extract(
           'style-loader',
           ['css-loader?' + JSON.stringify({
@@ -174,7 +176,7 @@ var clientConfig = extend(true, {}, config, {
         require('postcss-simple-vars')(),
         // Custom vr unit to help maintain a vertical rhythm, e.g. p { margin-bottom: 2vr; }
         // https://github.com/jameskolce/postcss-lh
-        require('postcss-lh')({ lineHeight: 1.75, rhythmUnit: 'vr' }),
+        require('postcss-lh')({ lineHeight: 2.8, rhythmUnit: 'vr' }),
         // W3C CSS Custom Media Queries, e.g. @custom-media --small-viewport (max-width: 30em);
         // https://github.com/postcss/postcss-custom-media
         require('postcss-custom-media')(),
@@ -224,7 +226,7 @@ var clientConfig = extend(true, {}, config, {
     // Emit a file with assets paths
     // https://github.com/sporto/assets-webpack-plugin#options
     new AssetsPlugin({
-      path: path.resolve(__dirname, 'build'),
+      path: path.resolve(process.cwd(), 'build'),
       filename: 'assets.json',
       //processOutput: function (x) { return 'module.exports = ' + JSON.stringify(x) },
     }),
@@ -238,12 +240,8 @@ var clientConfig = extend(true, {}, config, {
     // https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
     new webpack.optimize.OccurrenceOrderPlugin(true),
 
-    // LiveReload plugin to avoid manually having to refresh for changes in your browser
-    // https://github.com/statianzo/webpack-livereload-plugin
-    new LiveReloadPlugin({
-      port: 9201,
-      appendScriptTag: true
-    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
 
   ].concat(DEBUG ? [] : [
 
@@ -288,7 +286,7 @@ var serverConfig = extend(true, {}, config, {
     loaders: config.module.loaders.concat([
       {
         test: /\.css$/,
-        exclude: path.resolve(__dirname, 'src/styles/index.css'),
+        exclude: path.resolve(process.cwd(), 'src/styles/index.css'),
         loader:
           'css-loader/locals?' + JSON.stringify({
             // CSS Modules https://github.com/css-modules/css-modules
@@ -311,6 +309,16 @@ var serverConfig = extend(true, {}, config, {
       { raw: true, entryOnly: false }
     ),
   ],
+
+  externals: [
+    /^\.\/assets$/,
+    function filter(context, request, cb) {
+      var isExternal =
+        request.match(/^[@a-z][a-z\/\.\-0-9]*$/i);
+      cb(null, Boolean(isExternal));
+    },
+  ],
+
 
   node: {
     console: false,

@@ -1,6 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 /* Assets */
+import content from './content.jade';
 
 /* Styles */
 import s from './style.css'
@@ -9,7 +11,7 @@ import s from './style.css'
 
 /* Components */
 
-export default class %NAME% extends React.Component {
+export default class HomeView extends React.Component {
 	static propTypes = {
 		name: React.PropTypes.string,
 	};
@@ -20,7 +22,7 @@ export default class %NAME% extends React.Component {
 
 	render() {
 		return (
-			<div className={s.%NAME%}></div>
+			<div className={s.HomeView + ' container narrow card'} dangerouslySetInnerHTML={{__html: content()}} />
 		);
 	}
 }

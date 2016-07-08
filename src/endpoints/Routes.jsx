@@ -6,13 +6,14 @@ import {Route, IndexRoute, Redirect} from 'react-router';
 import App from '../components/App';
 
 /* Views */
-import TestView from '../views/TestView';
+import HomeView from '../views/HomeView';
 
 const Routes = (
 	<Route path="/" component={App}>
-		<IndexRoute component={TestView} />
-		<Redirect from="home" to="/" component={TestView} />
+		<IndexRoute component={HomeView} />
+		<Redirect from="home" to="/" component={HomeView} />
 	</Route>
 );
 
 export default Routes;
+
