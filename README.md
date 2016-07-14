@@ -22,8 +22,8 @@ When developing **hot reload** is enabled which we have chosen to run locally an
 ##Folder Structure
 This is the general structure with a few files omitted for clarity's sake.
 
-    trutoo-starter-kit/
-    |---build/
+	trutoo-starter-kit/
+	|---build/
 	|   |---public/
 	|   |   |---assets/
 	|   |   |   |---debug/          Temp folder for hot reload files
@@ -35,29 +35,29 @@ This is the general structure with a few files omitted for clarity's sake.
 	|   |---assets.json             References to files hash id based on file name
 	|   |---server.js               Main express server compiled
 	|
-    |---src/
-    |   |---components/             PascalCased React components
-    |   |   |---App                 Typical component
+	|---src/
+	|   |---components/             PascalCased React components
+	|   |   |---App/                Typical component
 	|   |       |---index.jsx
 	|   |       |---style.css
 	|   |
-    |   |---content/                Global content such as email templates
-    |   |---endpoints/              Express endpoints and controllers
-    |   |   |---EmailController/    PascalCase with index.js as resolve point
-    |   |   |---Endpoints.js        Express endpoints/routes
-    |   |   |---Routes.jsx          Express/React shared view routes
-    |   |
-    |   |---languages/              Folder for implementing own language logic
-    |   |---libs/                   Folder for add own CSS and JS libraries
-    |   |---public/                 Global assets to use through require/import
-    |   |---styles/                 Global mixins, vars, and entry for CSS libraries
-    |   |   |---index.css           Reference CSS library main file
-    |   |   |---mixins.css          Reference CSS library mixins file
-    |   |   |---vars.css            Reference CSS library vars file
-    |   |
+	|   |---content/                Global content such as email templates
+	|   |---endpoints/              Express endpoints and controllers
+	|   |   |---EmailController/    PascalCase with index.js as resolve point
+	|   |   |---Endpoints.js        Express endpoints/routes
+	|   |   |---Routes.jsx          Express/React shared view routes
+	|   |
+	|   |---languages/              Folder for implementing own language logic
+	|   |---libs/                   Folder for add own CSS and JS libraries
+	|   |---public/                 Global assets to use through require/import
+	|   |---styles/                 Global mixins, vars, and entry for CSS libraries
+	|   |   |---index.css           Reference CSS library main file
+	|   |   |---mixins.css          Reference CSS library mixins file
+	|   |   |---vars.css            Reference CSS library vars file
+	|   |
 	|   |---utils/                  Any global JS helpers
 	|   |---views/
-	|   |   |---HomeView            Typical view contains following 3 files
+	|   |   |---HomeView/           Typical view contains following 3 files
 	|   |       |---index.jsx
 	|   |       |---style.css
 	|   |       |---content.jade
@@ -66,10 +66,10 @@ This is the general structure with a few files omitted for clarity's sake.
 	|   |---config.js               Global settings such as auth and analytics
 	|   |---index.jade              Base template with headers and entry points
 	|   |---server.jsx              Server rendering in express with hot reloading
-    |
-    |---tools/                      Build configs and bash tools
-    |
-    |---package.json                Dependencies, details and scripts
+	|
+	|---tools/                      Build configs and bash tools
+	|
+	|---package.json                Dependencies, details and scripts
 
 ##Application Dependencies
 

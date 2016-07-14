@@ -63,9 +63,7 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
-    "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.1",
-    "webpack-livereload-plugin": "^0.8.1"
   },
   "dependencies": {
     "body-parser": "^1.15.1",
@@ -84,6 +82,7 @@
     "clean": "bash tools/clean.sh",
     "build": "bash tools/build.sh",
     "start": "bash tools/serve.sh",
-    "test": "bash tools/test.sh"
+    "test": "bash tools/test.sh",
+    "generate": "bash tools/generate.sh"
   }
 }
