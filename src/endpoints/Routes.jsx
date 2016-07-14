@@ -1,6 +1,6 @@
 /* React */
 import React from 'react';
-import {Route, IndexRoute, Redirect} from 'react-router';
+import { Route, IndexRoute, Redirect } from 'react-router';
 
 /* App */
 import App from '../components/App';

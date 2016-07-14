@@ -10,12 +10,10 @@ import s from './style.css';
 /* Components */
 
 export default class App extends React.Component {
-	static propTypes = {
-		name: React.PropTypes.string,
-	};
 
 	constructor(props) {
 		super(props);
+		this.state = {};
 	}
 
 	render() {
@@ -26,3 +24,8 @@ export default class App extends React.Component {
 		);
 	}
 }
+
+App.propTypes = {
+	name: React.PropTypes.string,
+	children: React.PropTypes.element,
+};

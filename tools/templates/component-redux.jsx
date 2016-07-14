@@ -4,25 +4,23 @@ import {connect} from 'react-redux';
 /* Assets */
 
 /* Styles */
-import s from './style.css'
+import s from './style.css';
 
 /* Utilities */
 
 /* Components */
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
 	return {
 
 	};
 }
 
 export class %NAME% extends React.Component {
-	static propTypes = {
-		name: React.PropTypes.string,
-	};
 
 	constructor(props) {
 		super(props);
+		this.state = {};
 	}
 
 	render() {
@@ -32,7 +30,11 @@ export class %NAME% extends React.Component {
 	}
 }
 
-export default connect(
+%NAME%.propTypes = {
+	name: React.PropTypes.string,
+};
+
+export default connect (
 	mapStateToProps,
 	// Implement map dispatch to props
 )(%NAME%);
