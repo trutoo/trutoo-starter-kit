@@ -1,5 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 /* Assets */
 import content from './content.jade';
@@ -22,7 +23,9 @@ export default class HomeView extends React.Component {
 
 	render() {
 		return (
-			<div className={s.HomeView + ' container narrow card'} dangerouslySetInnerHTML={{__html: content()}} />
+			<section className={s.HomeView + ' container narrow card'} >
+				<article dangerouslySetInnerHTML={{__html: content()}} />
+			</section>
 		);
 	}
 }

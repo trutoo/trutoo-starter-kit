@@ -3,5 +3,12 @@ CO='\033[0;35m' # Purple
 NC='\033[0m' # No Color
 
 npm run clean
-npm run copy
-npm run webpack
+
+printf "${CO}Creating Initial Client & Server Bundle${NC}\n"
+
+ENV=$( tr '[:upper:]' '[:lower:]' <<< "$1" )
+if [ "$ENV" = "prod" -o "$ENV" = "production" -o "$ENV" = "release" ]; then
+	webpack --production --progress --colors --config tools/build.config
+else
+	webpack --development --progress --colors --config tools/build.config
+fi

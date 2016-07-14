@@ -29,31 +29,49 @@ app.use(express.static('build/public'));
 //------------------------------------------------------------------------------------
 // HOT RELOAD FOR DEVELOPMENT
 //------------------------------------------------------------------------------------
-(function() {
+
+process.env.NODE_ENV == 'development' && (function() {
 
   // Step 1: Create & configure a webpack compiler
   var webpack = require('webpack');
   var webpackConfig = require('../tools/build.config');
-  var compiler = webpack(webpackConfig);
+  var webCompiler = webpack(webpackConfig[0]);
+  var nodeCompiler = webpack(webpackConfig[1]);
 
-  // Step 2: Attach the dev middleware to the compiler & the server
-  app.use(require("webpack-dev-middleware")(compiler, {
-  	noInfo: true,
-	  hot: true,
-	  publicPath: '/assets/',
-	  stats: {
-	    colors: true,
-	  },
-	  historyApiFallback: true,
-  }));
+  nodeCompiler.inputFileSystem = webCompiler.inputFileSystem;
+  var watchOptions = {
+    aggregateTimeout: 300,
+    poll: true
+  }
+
+  nodeCompiler.watch(watchOptions, function(err, stats) {
+		if (err)
+			throw(err);
+		stats = stats.toJson();
+		console.log('Server bundle built ' + stats.hash + ' in ' + stats.time + 'ms');
+	});
+
+	webCompiler.watch(watchOptions, function(err, stats) {
+		if (err)
+			throw(err);
+		stats = stats.toJson();
+		console.log('Client bundle built ' + stats.hash + ' in ' + stats.time + 'ms');
+	});
 
   // Step 3: Attach the hot middleware to the compiler & the server
-  app.use(require("webpack-hot-middleware")(compiler, {
-    log: console.log,
+  app.use(require("webpack-hot-middleware")(webCompiler, {
+    log: false,
     path: '/__webpack_hmr',
     heartbeat: 10 * 1000
   }));
 })();
+
+/* Static Markup Render to avoid checksum missmatch when hot reloading */
+const render = (process.env.NODE_ENV == 'development' ? renderToStaticMarkup : renderToString);
+
+//------------------------------------------------------------------------------------
+// SERVER
+//------------------------------------------------------------------------------------
 
 /* Routes */
 import index from './index.jade';
@@ -70,7 +88,7 @@ app.get('*', function (req, res) {
 
 		} else if (renderProps) {
 			var data = {title: '', body: '', css: assets.main.css, javascript: assets.main.js};
-			data.body = renderToString(<RouterContext {...renderProps} />);
+			data.body = render(<RouterContext {...renderProps} />);
 			data.title = Helmet.rewind().title.toString();
 			res.status(200).send(index(data));
 

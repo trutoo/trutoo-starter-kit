@@ -5,7 +5,7 @@ var AssetsPlugin = require('assets-webpack-plugin');
 var LiveReloadPlugin = require('webpack-livereload-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-var DEBUG = process.argv.indexOf('--release') == -1;
+var DEBUG = process.argv.indexOf('--production') == -1;
 var VERBOSE = process.argv.indexOf('--verbose') != -1;
 var AUTOPREFIXER_BROWSERS = [
   'Android 2.3',
@@ -31,7 +31,9 @@ var config = {
 
   output: {
     path: path.resolve(process.cwd(), 'build/public/assets'),
-    publicPath: '/assets/'
+    publicPath: '/assets/',
+    hotUpdateChunkFilename: "debug/[id].[hash].hot-update.js",
+    hotUpdateMainFilename: "debug/[hash].hot-update.json",
   },
 
   module: {
@@ -49,11 +51,11 @@ var config = {
           // https://babeljs.io/docs/usage/options/
           babelrc: false,
           presets: [
-            'react',
             'es2015',
             'stage-0',
+            'react',
           ],
-          plugins: ['transform-runtime'].concat(DEBUG ? [] : [
+          plugins: ['react-hot-loader/babel', 'transform-runtime'].concat(DEBUG ? [] : [
             'transform-react-remove-prop-types',
             'transform-react-constant-elements',
             'transform-react-inline-elements'
@@ -117,7 +119,8 @@ var config = {
 // -----------------------------------------------------------------------------
 var clientConfig = extend(true, {}, config, {
   entry: [
-    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+    'react-hot-loader/patch',
+    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&noInfo=true',
     './client.jsx'
   ],
 
@@ -228,18 +231,20 @@ var clientConfig = extend(true, {}, config, {
     new AssetsPlugin({
       path: path.resolve(process.cwd(), 'build'),
       filename: 'assets.json',
-      //processOutput: function (x) { return 'module.exports = ' + JSON.stringify(x) },
     }),
 
     // Move every require("style.css") in entry chunks into a separate css output file.
     // https://github.com/webpack/extract-text-webpack-plugin
-    new ExtractTextPlugin(DEBUG ? '../[name].css?[chunkhash]' : '../[name].[chunkhash].css', {allChunks: true}),
-
+    new ExtractTextPlugin(DEBUG ? '../[name].css?[hash]' : '../[name].[hash].css', {
+      disable: DEBUG,
+      allChunks: true,
+    }),
     // Assign the module and chunk ids by occurrence count
     // Consistent ordering of modules required if using any hashing ([hash] or [chunkhash])
     // https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
     new webpack.optimize.OccurrenceOrderPlugin(true),
 
+    /* Hot Reload */
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
 
@@ -273,7 +278,9 @@ var clientConfig = extend(true, {}, config, {
 // -----------------------------------------------------------------------------
 
 var serverConfig = extend(true, {}, config, {
-  entry: './server.jsx',
+  entry: [
+    './server.jsx'
+  ],
 
   output: {
     filename: '../../server.js',
