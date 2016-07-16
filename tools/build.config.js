@@ -2,7 +2,6 @@ var path = require('path');
 var webpack = require('webpack');
 var extend = require('extend');
 var AssetsPlugin = require('assets-webpack-plugin');
-var LiveReloadPlugin = require('webpack-livereload-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var DEBUG = process.argv.indexOf('--production') == -1;
@@ -61,11 +60,12 @@ var config = {
 							'transform-react-constant-elements',
 							'transform-react-inline-elements'
 						]),
-					}),
+					})
+				].concat(DEBUG ? [] : [
 					'eslint-loader?' + JSON.stringify({
 						configFile: '.eslintrc'
 					})
-				].join('!')
+				]).join('!')
 			},
 			{
 				test: /\.json$/,
