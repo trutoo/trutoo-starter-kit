@@ -1,20 +1,32 @@
 
 #Welcome to Trutoo Starter Kit
-This is a starter kit using **ReactJS** on top of **ExpressJS** on top of **NodeJS** to create a simple fullstack starter kit for all uses **commercial** and **non-commercial**. In this package there are multiple dependencies to aid development which are listed at the bottom of the page.
+This is a starter kit using [React](https://facebook.github.io/react/) on top of [Express](http://expressjs.com/) on top of [Node](https://nodejs.org/en/) to create a simple fullstack starter kit for all uses **commercial** and **non-commercial**. In this package there are multiple dependencies to aid development which are listed at the bottom of the page.
 
-##Scripts
+##Installation & Scripts
+To get started you are going to need [Node](https://nodejs.org/en/) and [BASH](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) (for the npm scripts). Windows users can use a tool like: [CASH](https://github.com/dthree/cash) or [Cygwin](https://www.cygwin.com/). Then clone this repository either with a GUI or with the following command:
+
+	$ git clone https://github.com/trutoo/trutoo-starter-kit.git
+
+Finally install all dependencies with:
+
+	$ npm install
+
+Bellow are a list of NPM scripts that you can run to aid development.
+
 |Command|Description|
 |---|---|
 |`npm run clean`|Removes old compilation|
 |`npm run build [production]`|Compiles project against targeted environment|
 |`npm run generate`|Helper to generate (view / presentation / container) component|
-|`npm run test`|Runs tests on code **!Not yet implemented!**|
+|`npm run test`|Runs ESLint on the `src/` code using [Airbnb's Style Guide](https://github.com/airbnb/javascript)|
 |`npm start [production]`|Runs clean, build and serves a local node against targeted environment|
 
-##Notes
-When developing **hot reload** is enabled which we have chosen to run locally and not in a **webpack-dev-server / webpack-dev-middlewear** which generates a `debug/` folder in `build/public/assets/`. Make sure to run `npm start production` to before deploying `build/` to your server.
+Now you are ready to build with ❤!
 
-##Tips and Tricks
+##Notes
+When developing **hot reload** is enabled which we have chosen to run locally and not in a **webpack-dev-server / webpack-dev-middlewear** which generates a `debug/` folder in `build/public/assets/`. Make sure to run `npm start production` before deploying `build/` to your server.
+
+##Tips & Tricks
 **Hot reloading** will cause warnings in the console for certain plugins such as **React Router** and **React Redux**. To hide them from the console use a **regex filter** similar to:
 
 	^((?!cannot change|support changing).)+$
@@ -23,53 +35,58 @@ When developing **hot reload** is enabled which we have chosen to run locally an
 This is the general structure with a few files omitted for clarity's sake.
 
 	trutoo-starter-kit/
-	|---build/
-	|   |---public/
-	|   |   |---assets/
-	|   |   |   |---debug/          Temp folder for hot reload files
-	|   |   |   |--- *.*            All assets requested through require/import
-	|   |   |
-	|   |   |---main.js             JS entry point for browsers
-	|   |   |---main.css            CSS entry point for browsers (production only)
-	|   |   
-	|   |---assets.json             References to files hash id based on file name
-	|   |---server.js               Main express server compiled
-	|
-	|---src/
-	|   |---components/             PascalCased React components
-	|   |   |---App/                Typical component
-	|   |       |---index.jsx
-	|   |       |---style.css
-	|   |
-	|   |---content/                Global content such as email templates
-	|   |---endpoints/              Express endpoints and controllers
-	|   |   |---EmailController/    PascalCase with index.js as resolve point
-	|   |   |---Endpoints.js        Express endpoints/routes
-	|   |   |---Routes.jsx          Express/React shared view routes
-	|   |
-	|   |---languages/              Folder for implementing own language logic
-	|   |---libs/                   Folder for add own CSS and JS libraries
-	|   |---public/                 Global assets to use through require/import
-	|   |---styles/                 Global mixins, vars, and entry for CSS libraries
-	|   |   |---index.css           Reference CSS library main file
-	|   |   |---mixins.css          Reference CSS library mixins file
-	|   |   |---vars.css            Reference CSS library vars file
-	|   |
-	|   |---utils/                  Any global JS helpers
-	|   |---views/
-	|   |   |---HomeView/           Typical view contains following 3 files
-	|   |       |---index.jsx
-	|   |       |---style.css
-	|   |       |---content.jade
-	|   |
-	|   |---client.jsx              Client rendering with hot reloading
-	|   |---config.js               Global settings such as auth and analytics
-	|   |---index.jade              Base template with headers and entry points
-	|   |---server.jsx              Server rendering in express with hot reloading
-	|
-	|---tools/                      Build configs and bash tools
-	|
-	|---package.json                Dependencies, details and scripts
+	├─── build/
+	│    ├─── public/
+	│    │    ├─── assets/
+	│    │    │    ├─── debug/         Temp folder for hot reload files
+	│    │    │    └─── *.*            All assets requested through require/import
+	│    │    │
+	│    │    ├─── main.js             JS entry point for browsers
+	│    │    └─── main.css            CSS entry point for browsers (production only)
+	│    │   
+	│    ├─── assets.json              References to files hash id based on file name
+	│    └─── server.js                Main express server compiled
+	│
+	├─── src/
+	│    ├─── components/              PascalCased React components
+	│    │    └─── App/                Typical component
+	│    │         ├─── index.jsx
+	│    │         └─── style.css
+	│    │
+	│    ├─── content/                 Global content such as email templates
+	│    ├─── endpoints/               Express endpoints and controllers
+	│    │    ├─── EmailController/    PascalCase with index.js as resolve point
+	│    │    ├─── Endpoints.js        Express endpoints/routes
+	│    │    └─── Routes.jsx          Express/React shared view routes
+	│    │
+	│    ├─── languages/               Folder for implementing own language logic
+	│    ├─── libs/                    Folder for add own CSS and JS libraries
+	│    ├─── public/                  Global assets to use through require/import
+	│    │    ├─── fav/
+	│    │    ├─── font/
+	│    │    ├─── img/
+	│    │    └─── vid/
+	│    │
+	│    ├─── styles/                  Global mixins, vars, and entry for CSS libraries
+	│    │    ├─── index.css           Reference CSS library main file
+	│    │    ├─── mixins.css          Reference CSS library mixins file
+	│    │    └─── vars.css            Reference CSS library vars file
+	│    │
+	│    ├─── utils/                   Any global JS helpers
+	│    ├─── views/
+	│    │    └─── HomeView/           Typical view contains following 3 files
+	│    │         ├─── index.jsx
+	│    │         ├─── style.css
+	│    │         └─── content.jade
+	│    │
+	│    ├───client.jsx                Client rendering with hot reloading
+	│    ├───config.js                 Global settings such as auth and analytics
+	│    ├───index.jade                Base template with headers and entry points
+	│    └───server.jsx                Server rendering in express with hot reloading
+	│
+	├───tools/                         Build configs and bash tools
+	│
+	└───package.json                   Dependencies, details and scripts
 
 ##Application Dependencies
 
@@ -104,10 +121,15 @@ This is the general structure with a few files omitted for clarity's sake.
 |babel-preset-react|^6.5.0||
 |babel-preset-stage-0|^6.5.0||
 |css-loader|^0.23.1||
+|eslint|^2.13.1||
+|eslint-config-airbnb|^9.0.1||
+|eslint-loader|^1.4.1||
+|eslint-plugin-import|^1.10.3||
+|eslint-plugin-jsx-a11y|^1.5.5||
+|eslint-plugin-react|^5.2.2||
 |extend|^3.0.0||
 |extract-text-webpack-plugin|^1.0.1||
 |file-loader|^0.9.0||
-|isomorphic-style-loader|^1.0.0||
 |jade|^1.11.0||
 |jade-loader|^0.8.0||
 |json-loader|^0.5.4||
@@ -116,6 +138,7 @@ This is the general structure with a few files omitted for clarity's sake.
 |pixrem|^3.0.1||
 |pleeease-filters|^3.0.0||
 |postcss|^5.1.0||
+|postcss-assets|^4.1.0||
 |postcss-calc|^5.3.0||
 |postcss-color-function|^2.0.1||
 |postcss-custom-media|^5.0.1||
