@@ -198,8 +198,8 @@ var clientConfig = extend(true, {}, config, {
 				// https://github.com/postcss/postcss-custom-selectors
 				require('postcss-custom-selectors')(),
 				// Allows you to nest one style rule inside another
-				// https://github.com/jonathantneal/postcss-nesting
-				require('postcss-nesting')(),
+				// https://github.com/postcss/postcss-nested
+				require('postcss-nested')(),
 				// Enables @for loop syntax, e.g. @for @i from $from to $to { .a-@i { width: calc(100% / $to * @i) } }
 				// https://github.com/xori/postcss-for
 				require('postcss-for-var')(),

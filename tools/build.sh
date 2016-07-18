@@ -2,9 +2,9 @@
 CO='\033[0;35m' # Purple
 NC='\033[0m' # No Color
 
-npm run clean
+./tools/clean.sh
 
-printf "${CO}Creating Initial Client & Server Bundle${NC}\n"
+printf "\n${CO}Creating Initial Client & Server Bundle${NC}\n\n"
 
 ENV=$( tr '[:upper:]' '[:lower:]' <<< "$1" )
 if [ "$ENV" = "prod" -o "$ENV" = "production" -o "$ENV" = "release" ]; then

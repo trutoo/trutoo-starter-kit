@@ -1,5 +1,6 @@
+/* React */
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 /* Assets */
 
@@ -18,6 +19,10 @@ function mapStateToProps (state) {
 
 export class %NAME% extends React.Component {
 
+	static propTypes = {
+		name: React.PropTypes.string,
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -25,14 +30,11 @@ export class %NAME% extends React.Component {
 
 	render() {
 		return (
-			<div className={s.%NAME%}></div>
+			<div className={s.%NAME%}>
+			</div>
 		);
 	}
 }
-
-%NAME%.propTypes = {
-	name: React.PropTypes.string,
-};
 
 export default connect (
 	mapStateToProps,

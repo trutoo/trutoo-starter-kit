@@ -1,3 +1,4 @@
+/* React */
 import React from 'react';
 
 /* Assets */
@@ -11,6 +12,10 @@ import s from './style.css';
 
 export default class %NAME% extends React.Component {
 
+	static propTypes = {
+		name: React.PropTypes.string,
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -22,7 +27,3 @@ export default class %NAME% extends React.Component {
 		);
 	}
 }
-
-%NAME%.propTypes = {
-	name: React.PropTypes.string,
-};

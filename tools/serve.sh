@@ -2,7 +2,8 @@
 CO='\033[0;35m' # Purple
 NC='\033[0m' # No Color
 
-npm run build -- $1
+./tools/build.sh $1
 
-printf "${CO}Initializing Server${NC}\n"
+printf "\n${CO}Initializing Server${NC}\n\n"
+
 nodemon build/server.js --delay 2s --watch src/server.jsx

@@ -10,9 +10,6 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 /* Global Styles */
 import './styles/index.css';
 
-/* Routes */
-import Routes from './endpoints/Routes.jsx';
-
 /* Store */
 const store = createStore(
 	combineReducers({
@@ -23,16 +20,28 @@ const store = createStore(
 /* Enhanced History */
 const history = syncHistoryWithStore(browserHistory, store);
 
+/* Render */
+const Root = require('./components/Root.jsx').default;
+const $root = document.getElementById('root');
 ReactDOM.render(
 	<HotLoaderAppContainer>
-		<Provider store={store}>
-			<Router history={history} routes={Routes} />
-		</Provider>
+		<Root store={store} history={history} />
 	</HotLoaderAppContainer>,
-	document.getElementById('root')
+	$root
 );
 
 /* Hot Reload */
 if (module.hot) {
-	module.hot.accept();
+	module.hot.accept('./components/Root.jsx', () => {
+
+		/* [HACK!] Running require tiggers hot reload, however using "dummy" instead of "Root" causes router warnings */
+		const dummy = require('./components/Root.jsx').default;
+
+		ReactDOM.render(
+			<HotLoaderAppContainer>
+				<Root store={store} history={history} />
+			</HotLoaderAppContainer>,
+			$root
+		);
+	});
 }

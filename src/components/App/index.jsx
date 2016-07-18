@@ -1,4 +1,6 @@
+/* React */
 import React from 'react';
+import Helmet from "react-helmet";
 
 /* Assets */
 
@@ -11,6 +13,11 @@ import s from './style.css';
 
 export default class App extends React.Component {
 
+	static propTypes = {
+		name: React.PropTypes.string,
+		children: React.PropTypes.element,
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -19,13 +26,10 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div className={s.App}>
+				<Helmet titleTemplate="%s | Trutoo Starter Kit" />
+
 				{this.props.children}
 			</div>
 		);
 	}
 }
-
-App.propTypes = {
-	name: React.PropTypes.string,
-	children: React.PropTypes.element,
-};
