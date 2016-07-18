@@ -1,4 +1,4 @@
-
+![Trutoo AB Logo](https://drive.google.com/uc?export=view&id=0B5KlDmyjVFzZTlJrZmJKeXMyMEk)
 #Welcome to Trutoo Starter Kit
 This is a starter kit using [React](https://facebook.github.io/react/) on top of [Express](http://expressjs.com/) on top of [Node](https://nodejs.org/en/) to create a simple fullstack starter kit for all uses **commercial** and **non-commercial**. In this package there are multiple dependencies to aid development which are listed at the bottom of the page.
 
