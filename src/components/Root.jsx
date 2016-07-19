@@ -7,9 +7,14 @@ import { Router } from 'react-router';
 import Routes from '../endpoints/Routes.jsx';
 
 export default function Root(props) {
-  return (
-    <Provider store={props.store}>
-      <Router history={props.history} routes={Routes} />
-    </Provider>
-  );
+	return (
+		<Provider store={props.store}>
+			<Router history={props.history} routes={Routes} />
+		</Provider>
+	);
 }
+
+Root.propTypes = {
+	store: React.PropTypes.object
+	history: React.PropTypes.object,
+};

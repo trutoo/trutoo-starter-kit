@@ -1,6 +1,6 @@
 /* React */
 import React from 'react';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 /* Assets */
 
@@ -12,11 +12,6 @@ import s from './style.css';
 /* Components */
 
 export default class App extends React.Component {
-
-	static propTypes = {
-		name: React.PropTypes.string,
-		children: React.PropTypes.element,
-	};
 
 	constructor(props) {
 		super(props);
@@ -33,3 +28,8 @@ export default class App extends React.Component {
 		);
 	}
 }
+
+App.propTypes = {
+	name: React.PropTypes.string,
+	children: React.PropTypes.element,
+};

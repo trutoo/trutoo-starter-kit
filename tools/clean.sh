@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
-CO='\033[0;35m' # Purple
+NEU='\033[0;35m' # Purple
+POS='\033[1;32m' # Green
+NEG='\033[1;31m' # Red
 NC='\033[0m' # No Color
 
-printf "${CO}Clean Old Build & Temp Files${NC}\n"
-rm -rf build/
-mkdir build/
+printf "${NEU}Cleaning old build files...${NC}\n"
+rm -rf build/ && mkdir build/
+
+if [ $? -eq 0 ]; then
+	printf "\n${POS}Successful, nothing left!${NC}\n"
+else
+	printf "\n${NEG}Failed, something got stuck!${NC}\n"
+fi

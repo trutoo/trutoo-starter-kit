@@ -3,10 +3,10 @@ import React from 'react';
 import { Route, IndexRoute, Redirect } from 'react-router';
 
 /* App */
-import App from '../components/App';
+import App from '../components/App/App.jsx';
 
 /* Views */
-import HomeView from '../views/HomeView';
+import HomeView from '../views/HomeView/HomeView.jsx';
 
 const Routes = (
 	<Route path="/" component={App}>

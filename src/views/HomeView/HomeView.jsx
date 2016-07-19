@@ -1,5 +1,5 @@
 import React from 'react';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 /* Assets */
 import content from './content.jade';
@@ -12,10 +12,6 @@ import s from './style.css';
 /* Components */
 
 export default class HomeView extends React.Component {
-
-	static propTypes = {
-		name: React.PropTypes.string,
-	};
 
 	constructor(props) {
 		super(props);
@@ -32,3 +28,7 @@ export default class HomeView extends React.Component {
 		);
 	}
 }
+
+HomeView.propTypes = {
+	name: React.PropTypes.string,
+};

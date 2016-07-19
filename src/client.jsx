@@ -1,10 +1,9 @@
 /* React */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppContainer as HotLoaderAppContainer } from 'react-hot-loader';
+import { AppContainer as HotReloadAppContainer } from 'react-hot-loader';
 import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
-import { Router, browserHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
 /* Global Styles */
@@ -24,23 +23,24 @@ const history = syncHistoryWithStore(browserHistory, store);
 const Root = require('./components/Root.jsx').default;
 const $root = document.getElementById('root');
 ReactDOM.render(
-	<HotLoaderAppContainer>
+	<HotReloadAppContainer>
 		<Root store={store} history={history} />
-	</HotLoaderAppContainer>,
+	</HotReloadAppContainer>,
 	$root
 );
 
 /* Hot Reload */
 if (module.hot) {
+	module.hot.accept();
 	module.hot.accept('./components/Root.jsx', () => {
 
-		/* [HACK!] Running require tiggers hot reload, however using "dummy" instead of "Root" causes router warnings */
-		const dummy = require('./components/Root.jsx').default;
+		/* [HACKY] Running require tiggers hot reload */
+		require('./components/Root.jsx').default; // eslint-disable-line no-unused-expressions
 
 		ReactDOM.render(
-			<HotLoaderAppContainer>
+			<HotReloadAppContainer>
 				<Root store={store} history={history} />
-			</HotLoaderAppContainer>,
+			</HotReloadAppContainer>,
 			$root
 		);
 	});

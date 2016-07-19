@@ -1,5 +1,6 @@
 /* React */
 import React from 'react';
+import Helmet from 'react-helmet';
 
 /* Assets */
 
@@ -8,7 +9,7 @@ import s from './style.css';
 
 /* Utilities */
 
-/* Component */
+/* View */
 
 export default class NAME extends React.Component {
 
@@ -19,7 +20,9 @@ export default class NAME extends React.Component {
 
 	render() {
 		return (
-			<div className={s.NAME}></div>
+			<div className={s.NAME}>
+				<Helmet title="NAME" />
+			</div>
 		);
 	}
 }
