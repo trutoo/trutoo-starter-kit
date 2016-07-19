@@ -17,8 +17,8 @@ Bellow are a list of NPM scripts that you can run to aid development.
 |---|---|
 |`npm run clean`|Removes old compilation|
 |`npm run build [production]`|Compiles project against targeted environment|
-|`npm run generate`|Helper to generate (view / presentation / container) component|
-|`npm run test`|Runs ESLint on the `src/` code using [Airbnb's Style Guide](https://github.com/airbnb/javascript)|
+|`npm run generate`|Helper to generate a (view \| component \| container)|
+|`npm test`|Runs ESLint on the `src/` code using [Airbnb's Style Guide](https://github.com/airbnb/javascript)|
 |`npm start [production]`|Runs clean, build and serves a local node against targeted environment|
 
 Now you are ready to build with ❤!
@@ -26,10 +26,12 @@ Now you are ready to build with ❤!
 ##Notes
 When developing **hot reload** is enabled which we have chosen to run locally and not in a **webpack-dev-server / webpack-dev-middlewear** which generates a `debug/` folder in `build/public/assets/`. Make sure to run `npm start production` before deploying `build/` to your server.
 
+<!---
 ##Tips & Tricks
 **Hot reloading** will cause warnings in the console for certain plugins such as **React Router** and **React Redux**. To hide them from the console use a **regex filter** similar to:
 
 	^((?!cannot change|support changing).)+$
+--->
 
 ##Folder Structure
 This is the general structure with a few files omitted for clarity's sake.
@@ -117,9 +119,7 @@ This is the general structure with a few files omitted for clarity's sake.
 |babel-plugin-transform-react-remove-prop-types|^0.2.7||
 |babel-plugin-transform-runtime|^6.9.0||
 |babel-preset-es2015|^6.9.0||
-|babel-preset-node5|^11.1.0||
 |babel-preset-react|^6.5.0||
-|babel-preset-stage-0|^6.5.0||
 |css-loader|^0.23.1||
 |eslint|^2.13.1||
 |eslint-config-airbnb|^9.0.1||
@@ -149,7 +149,7 @@ This is the general structure with a few files omitted for clarity's sake.
 |postcss-loader|^0.9.1||
 |postcss-media-minmax|^2.1.2||
 |postcss-mixins|^5.0.0||
-|postcss-nesting|^2.3.1||
+|postcss-nested|^1.0.0||
 |postcss-selector-matches|^2.0.1||
 |postcss-selector-not|^2.0.0||
 |postcss-simple-vars|^3.0.0||
