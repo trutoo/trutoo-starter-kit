@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 NEU='\033[0;35m' # Purple
-POS='\033[1;32m' # Green
-NEG='\033[1;31m' # Red
+POS='\033[0;32m' # Green
+NEG='\033[0;31m' # Red
 NC='\033[0m' # No Color
 
 # Set variable
@@ -17,8 +17,8 @@ fi
 TYPE=$( tr '[:upper:]' '[:lower:]' <<<"$TYPE" )
 
 if [ -z "$NAME" ]; then
-	printf "${NEU}Simple name for your ${TYPE} (eg. Home, Header, Product): ${NC}";
-	read NAME;
+	printf "${NEU}Simple name for your ${TYPE} (eg. Home, Header, Product): ${NC}"
+	read NAME
 fi
 
 # Generate files and folders
@@ -61,5 +61,6 @@ case $TYPE in
 	view ;;
 
 *)
-	printf "${NEG}Cannot generate component of type ${TYPE}${NC}\n" ;;
+	printf "${NEG}Cannot generate component of type ${TYPE}${NC}\n\n"
+	exit 1 ;;
 esac

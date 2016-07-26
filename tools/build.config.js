@@ -1,8 +1,10 @@
+var fs = require('fs');
 var path = require('path');
 var webpack = require('webpack');
 var extend = require('extend');
 var AssetsPlugin = require('assets-webpack-plugin');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var NodeExternals = require('webpack-node-externals');
 
 var DEBUG = process.argv.indexOf('--production') == -1;
 var VERBOSE = process.argv.indexOf('--verbose') != -1;
@@ -21,18 +23,18 @@ var GLOBALS = {
 	__DEV__: DEBUG,
 };
 
-//
-// Common configuration to be used for both
-// client-side (client.js) and server-side (server.js) bundles
-// -----------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+// BASE CONFIGURATION
+//------------------------------------------------------------------------------------
+
 var config = {
 	context: path.resolve(process.cwd(), 'src'),
 
 	output: {
 		path: path.resolve(process.cwd(), 'build/public/assets'),
 		publicPath: '/assets/',
-		hotUpdateChunkFilename: "debug/[id].[hash].hot-update.js",
-		hotUpdateMainFilename: "debug/[hash].hot-update.json",
+		hotUpdateChunkFilename: 'debug/[id].[hash].hot-update.js',
+		hotUpdateMainFilename: 'debug/[hash].hot-update.json',
 	},
 
 	module: {
@@ -96,10 +98,22 @@ var config = {
 		],
 	},
 
+	plugins: [
+		function() {
+			this.plugin('done', function(stats) {
+				if (stats.compilation.errors && stats.compilation.errors.length) {
+					process.on('beforeExit', function() {
+						process.exit(1);
+					});
+				}
+			});
+		}
+	],
+
 	resolve: {
 		root: path.resolve(process.cwd(), 'src'),
 		modulesDirectories: ['node_modules'],
-		extensions: ['', '.js', '.jsx', '.json'],
+		extensions: ['', '.js', '.jsx'],
 	},
 
 	cache: DEBUG,
@@ -118,9 +132,10 @@ var config = {
 	},
 };
 
-//
-// Configuration for the client-side bundle (client.js)
-// -----------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+// CLIENT SPECIFIC CONFIGURATION
+//------------------------------------------------------------------------------------
+
 var clientConfig = extend(true, {}, config, {
 	entry: [
 		'react-hot-loader/patch',
@@ -174,7 +189,7 @@ var clientConfig = extend(true, {}, config, {
 			default: [
 				// Transfer @import rule by inlining content, e.g. @import 'normalize.css'
 				// https://github.com/postcss/postcss-import
-				require('postcss-import')({ addDependencyTo: bundler }),
+				require('postcss-import')({ path: 'src/', addDependencyTo: bundler }),
 				// Simple template to prevent repeating code, e.g. @define-mixin headline $size { font-size: $size; } span { @mixin headline 32px; }
 				// https://github.com/postcss/postcss-mixins
 				require('postcss-mixins')(),
@@ -183,7 +198,7 @@ var clientConfig = extend(true, {}, config, {
 				require('postcss-simple-vars')(),
 				// Allows resolving for assets regardless of import location div { background: resolve('img.jpg'); }
 				// https://github.com/assetsjs/postcss-assets
-				require('postcss-assets')({ basePath: 'src/', loadPaths: ['**'] }),
+				require('postcss-assets')({ basePath: 'src/', loadPaths: ['**'], relative: true }),
 				// Custom vr unit to help maintain a vertical rhythm, e.g. p { margin-bottom: 2vr; }
 				// https://github.com/jameskolce/postcss-lh
 				require('postcss-lh')({ lineHeight: 2.8, rhythmUnit: 'vr' }),
@@ -211,7 +226,7 @@ var clientConfig = extend(true, {}, config, {
 				// Convert CSS shorthand filters to SVG equivalent, e.g. .blur { filter: blur(4px); }
 				// https://github.com/iamvdo/pleeease-filters
 				require('pleeease-filters')(),
-				// Generate pixel fallback for "rem" units, e.g. div { margin: 2.5rem 2px 3em 100%; }
+				// Generate pixel fallback for 'rem' units, e.g. div { margin: 2.5rem 2px 3em 100%; }
 				// https://github.com/robwierzbowski/node-pixrem
 				require('pixrem')(),
 				// W3C CSS Level4 :matches() pseudo class, e.g. p:matches(:first-child, .special) { }
@@ -227,7 +242,7 @@ var clientConfig = extend(true, {}, config, {
 		};
 	},
 
-	plugins: [
+	plugins: config.plugins.concat([
 
 		// Define free variables
 		// https://webpack.github.io/docs/list-of-plugins.html#defineplugin
@@ -240,7 +255,7 @@ var clientConfig = extend(true, {}, config, {
 			filename: 'assets.json',
 		}),
 
-		// Move every require("style.css") in entry chunks into a separate css output file.
+		// Move every require('style.css') in entry chunks into a separate css output file.
 		// https://github.com/webpack/extract-text-webpack-plugin
 		new ExtractTextPlugin(DEBUG ? '../[name].css?[hash]' : '../[name].[hash].css', {
 			disable: DEBUG,
@@ -255,7 +270,7 @@ var clientConfig = extend(true, {}, config, {
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoErrorsPlugin(),
 
-	].concat(DEBUG ? [] : [
+	]).concat(DEBUG ? [] : [
 
 		// Search for equal or similar files and deduplicate them in the output
 		// https://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
@@ -280,9 +295,9 @@ var clientConfig = extend(true, {}, config, {
 	devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
 });
 
-//
-// Configuration for the server-side bundle (server.js)
-// -----------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+// SERVER SPECIFIC CONFIGURATION
+//------------------------------------------------------------------------------------
 
 var serverConfig = extend(true, {}, config, {
 	entry: [
@@ -311,7 +326,7 @@ var serverConfig = extend(true, {}, config, {
 		])
 	},
 
-	plugins: [
+	plugins: config.plugins.concat([
 
 		// Define free variables
 		// https://webpack.github.io/docs/list-of-plugins.html#defineplugin
@@ -319,20 +334,15 @@ var serverConfig = extend(true, {}, config, {
 
 		// Adds a banner to the top of each generated chunk
 		// https://webpack.github.io/docs/list-of-plugins.html#bannerplugin
-		new webpack.BannerPlugin('require("source-map-support").install();',
+		new webpack.BannerPlugin("require('source-map-support').install();",
 			{ raw: true, entryOnly: false }
 		),
-	],
+	]),
 
 	externals: [
 		/^\.\/assets$/,
-		function filter(context, request, cb) {
-			var isExternal =
-				request.match(/^[@a-z][a-z\/\.\-0-9]*$/i);
-			cb(null, Boolean(isExternal));
-		},
+		NodeExternals({ modulesFromFile: true }),
 	],
-
 
 	node: {
 		console: false,

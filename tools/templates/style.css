@@ -1,6 +1,6 @@
-@import '../../styles/vars.css';
-@import '../../styles/mixins.css';
+@import 'styles/vars.css';
+@import 'styles/mixins.css';
 
-.%NAME% {
+.NAME {
 	
 }

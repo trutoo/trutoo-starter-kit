@@ -9,7 +9,7 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 /* Global Styles */
 import './styles/index.css';
 
-/* Store */
+/* Redux Store */
 const store = createStore(
 	combineReducers({
 		routing: routerReducer,

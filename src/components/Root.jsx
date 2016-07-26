@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 
 /* Routes */
-import Routes from '../endpoints/Routes.jsx';
+import Routes from 'endpoints/Routes.jsx';
 
 export default function Root(props) {
 	return (
@@ -15,6 +15,6 @@ export default function Root(props) {
 }
 
 Root.propTypes = {
-	store: React.PropTypes.object
+	store: React.PropTypes.object,
 	history: React.PropTypes.object,
 };

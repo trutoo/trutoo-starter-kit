@@ -1,5 +1,5 @@
-@import '../../styles/vars.css';
-@import '../../styles/mixins.css';
+@import 'styles/vars.css';
+@import 'styles/mixins.css';
 
 .App {
 	padding: 2vr 2vr;
