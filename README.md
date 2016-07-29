@@ -26,12 +26,12 @@ Now you are ready to build with ❤!
 ##Notes
 When developing **hot reload** is enabled which we have chosen to run locally and not in a **webpack-dev-server / webpack-dev-middlewear** which generates a `debug/` folder in `build/public/assets/`. Make sure to run `npm start production` before deploying `build/` to your server.
 
-<!---
+<!--
 ##Tips & Tricks
 **Hot reloading** will cause warnings in the console for certain plugins such as **React Router** and **React Redux**. To hide them from the console use a **regex filter** similar to:
 
 	^((?!cannot change|support changing).)+$
---->
+-->
 
 ##Folder Structure
 This is the general structure with a few files omitted for clarity's sake.
@@ -62,19 +62,19 @@ This is the general structure with a few files omitted for clarity's sake.
 	│    │    └─── Routes.jsx          Express/React shared view routes
 	│    │
 	│    ├─── languages/               Folder for implementing own language logic
-	│    ├─── libs/                    Folder for add own CSS and JS libraries
+	│    ├─── libraries/               Folder for add own CSS and JS libraries
 	│    ├─── public/                  Global assets to use through require/import
-	│    │    ├─── fav/
-	│    │    ├─── font/
-	│    │    ├─── img/
-	│    │    └─── vid/
+	│    │    ├─── favicons/
+	│    │    ├─── fonts/
+	│    │    ├─── images/
+	│    │    └─── videos/
 	│    │
 	│    ├─── styles/                  Global mixins, vars, and entry for CSS libraries
 	│    │    ├─── index.css           Reference CSS library main file
 	│    │    ├─── mixins.css          Reference CSS library mixins file
 	│    │    └─── vars.css            Reference CSS library vars file
 	│    │
-	│    ├─── utils/                   Any global JS helpers
+	│    ├─── utilities/               Any global JS helpers
 	│    ├─── views/
 	│    │    └─── HomeView/           Typical view contains following 3 files
 	│    │         ├─── index.jsx

@@ -1,3 +1,3 @@
-[submodule "src/libs/trutoo-style-kit"]
-	path = src/libs/trutoo-style-kit
+[submodule "src/libraries/trutoo-style-kit"]
+	path = src/libraries/trutoo-style-kit
 	url = https://github.com/trutoo/trutoo-style-kit
