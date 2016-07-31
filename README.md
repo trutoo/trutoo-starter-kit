@@ -3,9 +3,9 @@
 This is a starter kit using [React](https://facebook.github.io/react/) on top of [Express](http://expressjs.com/) on top of [Node](https://nodejs.org/en/) to create a simple fullstack starter kit for all uses **commercial** and **non-commercial**. In this package there are multiple dependencies to aid development which are listed at the bottom of the page.
 
 ##Installation & Scripts
-To get started you are going to need [Node](https://nodejs.org/en/) and [BASH](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) (for the npm scripts). Windows users can use a tool like: [CASH](https://github.com/dthree/cash) or [Cygwin](https://www.cygwin.com/). Then clone this repository either with a GUI or with the following command:
+To get started you are going to need [Node v5.0+](https://nodejs.org/en/) and [BASH](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) (for the npm scripts). Windows users can use a tool like: [CASH](https://github.com/dthree/cash) or [Cygwin](https://www.cygwin.com/). Then clone this repository either with a GUI or with the following command:
 
-	$ git clone https://github.com/trutoo/trutoo-starter-kit.git
+	$ git clone -o trutoo-starter-kit -b master --single-branch https://github.com/trutoo/trutoo-starter-kit.git App
 
 Finally install all dependencies with:
 
@@ -22,6 +22,14 @@ Bellow are a list of NPM scripts that you can run to aid development.
 |`npm start [production]`|Runs clean, build and serves a local node against targeted environment|
 
 Now you are ready to build with ❤!
+
+##Updating
+Run the following commands to update the starter kit when a new version is released.
+
+	$ git checkout master
+	$ git fetch trutoo-starter-kit
+	$ git merge trutoo-starter-kit/master
+	$ npm install
 
 ##Notes
 When developing **hot reload** is enabled which we have chosen to run locally and not in a **webpack-dev-server / webpack-dev-middlewear** which generates a `debug/` folder in `build/public/assets/`. Make sure to run `npm start production` before deploying `build/` to your server.
