@@ -69,7 +69,14 @@ var config = {
 				]).join('!')
 			},
 			{
+				test: /\.jade$/,
+				loader: 'jade-loader',
+			},
+			{
 				test: /\.json$/,
+				exclude: [
+					path.resolve(process.cwd(), 'src/public/favicons/manifest.json'),
+				],
 				loader: 'json-loader',
 			},
 			{
@@ -77,7 +84,7 @@ var config = {
 				loader: 'raw-loader',
 			},
 			{
-				test: /\.(png|jpe?g|gif|svg|woff2?)$/,
+				test: /\.(png|jpe?g|gif|ico|svg|woff2?)$/,
 				loader: 'url-loader',
 				query: {
 					name: DEBUG ? '[name].[ext]?[hash]' : '[hash].[ext]',
@@ -85,15 +92,15 @@ var config = {
 				},
 			},
 			{
-				test: /\.(eot|ttf|wav|mp3)$/,
+				test: /manifest\.json|\.(xml|eot|ttf|wav|mp3)$/,
 				loader: 'file-loader',
 				query: {
 					name: DEBUG ? '[name].[ext]?[hash]' : '[hash].[ext]',
 				},
 			},
 			{
-				test: /\.jade$/,
-				loader: 'jade-loader',
+				test: /\.(xml|json|txt)$/,
+				loader: 'nested-require-loader',
 			},
 		],
 	},
