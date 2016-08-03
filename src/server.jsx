@@ -11,14 +11,13 @@ import { port } from './config.js';
 import express from 'express';
 import bodyParser from 'body-parser';
 
-let assets;
 const app = express();
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 /* Static Assets */
 import fs from 'fs';
+let assets;
 fs.readFile(`${__dirname}/assets.json`, (err, data) => {
 	if (err) {
 		throw err;
@@ -33,18 +32,20 @@ app.use(express.static('build/public'));
 //------------------------------------------------------------------------------------
 if (process.env.NODE_ENV === 'development') {
 
-	// Step 1: Create & configure a webpack compiler
+	/* Load Config and Setup Compilers */
 	const webpack = require('webpack');
 	const webpackConfig = require('../tools/build.config');
 	const webCompiler = webpack(webpackConfig[0]);
 	const nodeCompiler = webpack(webpackConfig[1]);
 
+	/* Joint compiler settings */
 	nodeCompiler.inputFileSystem = webCompiler.inputFileSystem;
 	const watchOptions = {
 		aggregateTimeout: 300,
 		poll: true,
 	};
 
+	/* Watch for server changes */
 	nodeCompiler.watch(watchOptions, (err, stats) => {
 		if (err) {
 			throw err;
@@ -53,6 +54,7 @@ if (process.env.NODE_ENV === 'development') {
 		console.log(`Server bundle built ${statsJSON.hash} in ${statsJSON.time} ms`);
 	});
 
+	/* Watch for client changes */
 	webCompiler.watch(watchOptions, (err, stats) => {
 		if (err) {
 			throw err;
@@ -61,7 +63,7 @@ if (process.env.NODE_ENV === 'development') {
 		console.log(`Client bundle built ${statsJSON.hash} in ${statsJSON.time} ms`);
 	});
 
-	// Step 3: Attach the hot middleware to the compiler & the server
+	/* Attach hot reload to client compiler */
 	app.use(require('webpack-hot-middleware')(webCompiler, {
 		log: false,
 		path: '/__webpack_hmr',

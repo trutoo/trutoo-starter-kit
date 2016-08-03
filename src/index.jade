@@ -4,28 +4,33 @@ html(lang="en")
 	meta(http-equiv="x-ua-compatible", content="ie=edge")
 	meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
 
+	//- Page Details
 	!= title
 	meta(name="description", content="Trutoo Starter Kit")
 	meta(name="keywords", content="Trutoo, ReactJS, ExpressJS, NodeJS")
 
+	//- MS Tiles
 	meta(name='msapplication-TileColor', content='#f5f2f0')
 	meta(name='msapplication-TileImage', content=require('public/favicons/mstile-144x144.png'))
 	meta(name='msapplication-config', content=require('public/favicons/browserconfig.xml'))
 	meta(name='theme-color', content='#f5f2f0')
 
+	//- Favicons
 	link(rel='apple-touch-icon', href=require('public/favicons/apple-touch-icon.png'), sizes='180x180')
 	link(rel='icon', type='image/png', href=require('public/favicons/favicon-32x32.png'), sizes='32x32')
 	link(rel='icon', type='image/png', href=require('public/favicons/favicon-194x194.png'), sizes='194x194')
 	link(rel='icon', type='image/png', href=require('public/favicons/android-chrome-192x192.png'), sizes='192x192')
 	link(rel='icon', type='image/png', href=require('public/favicons/favicon-16x16.png'), sizes='16x16')
-	
-	//- Special Loader to resolve internal src
 	link(rel='manifest', href=require('public/favicons/manifest.json'))
 	link(rel='mask-icon', href=require('public/favicons/safari-pinned-tab.svg'), color='#b27100')
 	link(rel='shortcut icon', href=require('public/favicons/favicon.ico'))
 
+	//- Production Stylesheet
 	link(rel="stylesheet", href=css)
 
 body
+	//- Application Root
 	#root!= body
+
+	//- Application Entry
 	script(src=javascript)
