@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 /* Utilities */
 
-/* Components */
+/* Component */
 import NAME from './NAME.jsx';
 
 /* Container */

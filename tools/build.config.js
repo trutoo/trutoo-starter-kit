@@ -32,7 +32,7 @@ var config = {
 
 	output: {
 		path: path.resolve(process.cwd(), 'build/public/assets'),
-		publicPath: '/assets/',
+		publicPath: DEBUG ? 'http://localhost:9200/assets/' : '/assets/',
 		hotUpdateChunkFilename: 'debug/[id].[hash].hot-update.js',
 		hotUpdateMainFilename: 'debug/[hash].hot-update.json',
 	},
@@ -168,7 +168,7 @@ var clientConfig = extend(true, {}, config, {
 						sourceMap: DEBUG,
 						// CSS Modules https://github.com/css-modules/css-modules
 						modules: true,
-						localIdentName: DEBUG ? '[name]_[local]_[hash:base64:3]' : '[hash:base64:4]',
+						localIdentName: DEBUG ? '[local]_[hash:base64:4]' : '[hash:base64:4]',
 						// CSS Nano http://cssnano.co/options/
 						minimize: !DEBUG,
 					}),
