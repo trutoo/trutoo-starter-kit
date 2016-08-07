@@ -218,15 +218,15 @@ var clientConfig = extend(true, {}, config, {
 				// W3C CSS Custom Selectors, e.g. @custom-selector :--heading h1, h2, h3, h4, h5, h6;
 				// https://github.com/postcss/postcss-custom-selectors
 				require('postcss-custom-selectors')(),
-				// Allows you to nest one style rule inside another
-				// https://github.com/postcss/postcss-nested
-				require('postcss-nested')(),
 				// Enables @for loop syntax, e.g. @for @i from $from to $to { .a-@i { width: calc(100% / $to * @i) } }
 				// https://github.com/xori/postcss-for
 				require('postcss-for-var')(),
 				// W3C calc() function, e.g. div { height: calc(100px - 2em); }
 				// https://github.com/postcss/postcss-calc
 				require('postcss-calc')(),
+				// Allows you to nest one style rule inside another
+				// https://github.com/postcss/postcss-nested
+				require('postcss-nested')(),
 				// W3C color() function, e.g. div { background: color(red alpha(90%)); }
 				// https://github.com/postcss/postcss-color-function
 				require('postcss-color-function')(),
@@ -242,7 +242,7 @@ var clientConfig = extend(true, {}, config, {
 				// Transforms :not() W3C CSS Level 4 pseudo class to :not() CSS Level 3 selectors
 				// https://github.com/postcss/postcss-selector-not
 				require('postcss-selector-not')(),
-				// Add vendor prefixes to CSS rules using values = require(caniuse.com
+				// Add vendor prefixes to CSS rules using values = require(caniuse.com)
 				// https://github.com/postcss/autoprefixer
 				require('autoprefixer')({ browsers: AUTOPREFIXER_BROWSERS }),
 			]
