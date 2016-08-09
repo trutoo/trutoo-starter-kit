@@ -245,6 +245,9 @@ var clientConfig = extend(true, {}, config, {
 				// Add vendor prefixes to CSS rules using values = require(caniuse.com)
 				// https://github.com/postcss/autoprefixer
 				require('autoprefixer')({ browsers: AUTOPREFIXER_BROWSERS }),
+				// Removes /* Comment */ but keeps /*! Comment */ to clean up code
+				// https://github.com/ben-eb/postcss-discard-comments
+				require('postcss-discard-comments')()
 			]
 		};
 	},
