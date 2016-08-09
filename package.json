@@ -6,7 +6,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "-"
+    "url": "https://github.com/trutoo/trutoo-starter-kit"
   },
   "keywords": [
     "ReactJS",
