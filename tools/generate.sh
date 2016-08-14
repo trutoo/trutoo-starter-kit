@@ -51,8 +51,8 @@ function view {
 # Switch for specific build processes
 
 case $TYPE in
-'presentational') 
-	presentational ;;
+'component') 
+	component ;;
 
 'container')
 	container ;;

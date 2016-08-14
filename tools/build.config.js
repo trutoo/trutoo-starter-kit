@@ -203,6 +203,9 @@ var clientConfig = extend(true, {}, config, {
 				// Sass like variables, e.g. $red: #f00 div { background: $red; }
 				// https://github.com/postcss/postcss-simple-vars
 				require('postcss-simple-vars')(),
+				// Enables @if statements, e.g. .foo { @if 3 < 5 { background: green; }
+				// https://github.com/andyjansson/postcss-conditionals
+				require('postcss-conditionals')(),
 				// Allows resolving for assets regardless of import location div { background: resolve('img.jpg'); }
 				// https://github.com/assetsjs/postcss-assets
 				require('postcss-assets')({ basePath: 'src/', loadPaths: ['**'], relative: true }),
