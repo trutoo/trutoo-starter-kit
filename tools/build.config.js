@@ -69,8 +69,8 @@ var config = {
 				]).join('!')
 			},
 			{
-				test: /\.jade$/,
-				loader: 'jade-loader',
+				test: /\.pug$/,
+				loader: 'pug-loader',
 			},
 			{
 				test: /\.json$/,
@@ -191,7 +191,7 @@ var clientConfig = extend(true, {}, config, {
 		])
 	},
 
-	postcss(bundler) {
+	postcss: function(bundler) {
 		return {
 			default: [
 				// Transfer @import rule by inlining content, e.g. @import 'normalize.css'

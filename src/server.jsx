@@ -79,7 +79,7 @@ const render = (process.env.NODE_ENV === 'development' ? renderToStaticMarkup : 
 //------------------------------------------------------------------------------------
 
 /* Routes */
-import index from './index.jade';
+import index from './index.pug';
 import Routes from './endpoints/Routes.jsx';
 app.get('*', (req, res) => {
 	match({ routes: Routes, location: req.url }, (error, redirectLocation, renderProps) => {

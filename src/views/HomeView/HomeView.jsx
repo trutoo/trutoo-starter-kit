@@ -2,7 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 
 /* Assets */
-import content from './content.jade';
+import content from './content.pug';
 
 /* Styles */
 import s from './style.css';
