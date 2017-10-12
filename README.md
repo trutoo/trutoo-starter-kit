@@ -1,8 +1,8 @@
 ![Trutoo AB Logo](https://drive.google.com/uc?export=view&id=0B5KlDmyjVFzZTlJrZmJKeXMyMEk)
-#Welcome to Trutoo Starter Kit
+# Welcome to Trutoo Starter Kit
 This is a starter kit using [React](https://facebook.github.io/react/) on top of [Express](http://expressjs.com/) on top of [Node](https://nodejs.org/en/) to create a simple fullstack starter kit for all uses **commercial** and **non-commercial**. In this package there are multiple dependencies to aid development which are listed at the bottom of the page.
 
-##Installation & Scripts
+## Installation & Scripts
 To get started you are going to need [Node v5.0+](https://nodejs.org/en/) and [BASH](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) (for the npm scripts). Windows users can use a tool like: [CASH](https://github.com/dthree/cash) or [Cygwin](https://www.cygwin.com/). Then clone this repository either with a GUI or with the following command:
 
 	$ git clone -o trutoo-starter-kit -b master --single-branch https://github.com/trutoo/trutoo-starter-kit.git App
@@ -23,7 +23,7 @@ Bellow are a list of NPM scripts that you can run to aid development.
 
 Now you are ready to build with ❤!
 
-##Updating
+## Updating
 Run the following commands to update the starter kit when a new version is released.
 
 	$ git checkout master
@@ -31,17 +31,17 @@ Run the following commands to update the starter kit when a new version is relea
 	$ git merge trutoo-starter-kit/master
 	$ npm install
 
-##Notes
+## Notes
 When developing **hot reload** is enabled which we have chosen to run locally and not in a **webpack-dev-server / webpack-dev-middlewear** which generates a `debug/` folder in `build/public/assets/`. Make sure to run `npm start production` before deploying `build/` to your server.
 
 <!--
-##Tips & Tricks
+## Tips & Tricks
 **Hot reloading** will cause warnings in the console for certain plugins such as **React Router** and **React Redux**. To hide them from the console use a **regex filter** similar to:
 
 	^((?!cannot change|support changing).)+$
 -->
 
-##Folder Structure
+## Folder Structure
 This is the general structure with a few files omitted for clarity's sake.
 
 	trutoo-starter-kit/
@@ -98,7 +98,7 @@ This is the general structure with a few files omitted for clarity's sake.
 	│
 	└───package.json                   Dependencies, details and scripts
 
-##Application Dependencies
+## Application Dependencies
 
 |Plugin|Version|Inclusion Reason|
 |---|---|---|
@@ -114,7 +114,7 @@ This is the general structure with a few files omitted for clarity's sake.
 |react-router-redux|^4.0.5||
 |redux|^3.5.2"||
 
-##Development Dependencies
+## Development Dependencies
 
 |Plugin|Version|Inclusion Reason|
 |---|---|---|
